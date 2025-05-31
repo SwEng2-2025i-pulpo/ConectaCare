@@ -1,20 +1,19 @@
-import React, { useState } from 'react'
 import '../style.css'
 
-function ButtonForm ({ titleForm, children }) {
-  const [mostrarFormulario, setMostrarFormulario] = useState(false)
+function ButtonForm ({ titleForm, children, id, mostrarFormulario, setMostrarFormulario }) {
+  const estaAbierto = mostrarFormulario === id
 
   const toggleFormulario = () => {
-    setMostrarFormulario(!mostrarFormulario)
+    setMostrarFormulario(estaAbierto ? false : id)
     // console.log('mostrarFormulario', mostrarFormulario)
   }
 
   return (
     <div>
       <button className='bg-red-400' onClick={toggleFormulario}>
-        {mostrarFormulario ? 'cerrar' : titleForm}
+        {estaAbierto ? 'cerrar' : titleForm}
       </button>
-      {mostrarFormulario && children}
+      {estaAbierto && children}
     </div>
   )
 }
