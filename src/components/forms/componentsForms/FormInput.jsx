@@ -1,5 +1,4 @@
-import React from 'react'
-import '../../style.css'
+import '../../../style.css'
 
 function FormInput ({ label, id, register, required, error, ...props }) {
   return (

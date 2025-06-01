@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
-import { FormInput } from '../componentsForms/FormInput'
-import { FormSelect } from '../componentsForms/FormSelect'
-import { FormTextarea } from '../componentsForms/FormTextarea'
+import { FormInput } from './componentsForms/FormInput'
+import { FormSelect } from './componentsForms/FormSelect'
+import { FormTextarea } from './componentsForms/FormTextarea'
 
 const comidaOptions = [
   { value: '', label: 'Selecciona una comida' },
@@ -22,10 +22,12 @@ const hidratacionOptions = [
   { value: 'otro', label: 'Otro' }
 ]
 
-const FoodForms = ({ children }) => {
+const FoodForms = ({ children, onSubmit }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
 
   const send = (data) => {
+    onSubmit(data)
+    console.log('Datos enviados:', data)
     reset()
   }
 

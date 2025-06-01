@@ -1,4 +1,4 @@
-import '../style.css'
+import '../../../style.css'
 
 function ButtonForm ({ titleForm, children, id, mostrarFormulario, setMostrarFormulario }) {
   const estaAbierto = mostrarFormulario === id

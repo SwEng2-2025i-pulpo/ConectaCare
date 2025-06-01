@@ -1,4 +1,4 @@
-import '../../style.css'
+import '../../../style.css'
 
 function FormTextarea ({ label, id, register, error, ...props }) {
   return (

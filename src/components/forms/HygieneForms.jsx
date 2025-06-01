@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
-import { FormInput } from '../componentsForms/FormInput'
-import { FormSelect } from '../componentsForms/FormSelect'
-import { FormTextarea } from '../componentsForms/FormTextarea'
+import { FormInput } from './componentsForms/FormInput'
+import { FormSelect } from './componentsForms/FormSelect'
+import { FormTextarea } from './componentsForms/FormTextarea'
 
 const estadoCumplimientoOptions = [
   { value: '', label: 'Selcciona estado de cumplimiento' },

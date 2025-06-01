@@ -1,4 +1,4 @@
-import '../../style.css'
+import '../../../style.css'
 
 function FormSelect ({ label, id, register, required, error, options }) {
   return (
