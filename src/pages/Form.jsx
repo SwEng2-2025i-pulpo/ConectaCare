@@ -1,12 +1,12 @@
 import '../style.css'
 import React, { useState } from 'react'
-import { ButtonForm } from './forms/componentsForms/ButtonForm'
-import { FoodForms } from './forms/FoodForms'
-import { MedicationForms } from './forms/MedicationForms'
-import { HygieneForms } from './forms/HygieneForms'
-import { NoticeSend } from './forms/componentsForms/NoticeSend'
+import { ButtonForm } from '../components/forms/componentsForms/ButtonForm'
+import { NoticeSend } from '../components/forms/componentsForms/NoticeSend'
+import { FoodForms } from '../components/forms/FoodForms'
+import { MedicationForms } from '../components/forms/MedicationForms'
+import { HygieneForms } from '../components/forms/HygieneForms'
 
-function App () {
+function Form () {
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
   const [registros, setRegistros] = useState([])
 
@@ -44,4 +44,4 @@ function App () {
   )
 }
 
-export default App
+export { Form }
