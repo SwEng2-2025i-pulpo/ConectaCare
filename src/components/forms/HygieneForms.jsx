@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
@@ -17,10 +18,15 @@ const nivelAsistenciaOptions = [
   { value: 'totalmenteAsistido', label: 'Totalmente asistido' }
 ]
 
-function HygieneForms ({ children }) {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
+function HygieneForms ({ children, onSubmit, defaultValues }) {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const send = (data) => {
+    onSubmit(data)
     reset()
   }
 

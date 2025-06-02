@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { useEffect } from 'react'
 import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
@@ -22,8 +23,12 @@ const hidratacionOptions = [
   { value: 'otro', label: 'Otro' }
 ]
 
-const FoodForms = ({ children, onSubmit }) => {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
+const FoodForms = ({ children, onSubmit, defaultValues }) => {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const send = (data) => {
     onSubmit(data)

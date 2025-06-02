@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormInput } from './/componentsForms/FormInput'
 import { FormSelect } from './/componentsForms/FormSelect'
@@ -20,10 +21,15 @@ const estadoCumplimientoOptions = [
   { value: 'noDisponible', label: 'No disponible' }
 ]
 
-export default function MedicationForms ({ children }) {
-  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm()
+export default function MedicationForms ({ children, onSubmit, defaultValues }) {
+  const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
 
   const send = (data) => {
+    onSubmit(data)
     reset()
   }
 
