@@ -1,6 +1,6 @@
 import '../../style.css'
 import { useState } from 'react'
-import { NoticeSend } from '../forms/componentsForms/NoticeSend'
+import { NoticeSend } from '../NoticeSend'
 
 function ViewEditRecords ({
   registros = [],

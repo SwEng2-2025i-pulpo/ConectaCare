@@ -1,7 +1,7 @@
 import '../style.css'
 import React, { useState } from 'react'
 import { ButtonForm } from '../components/forms/componentsForms/ButtonForm'
-import { NoticeSend } from '../components/forms/componentsForms/NoticeSend'
+import { NoticeSend } from '../components/NoticeSend'
 import { FoodForms } from '../components/forms/FoodForms'
 import { MedicationForms } from '../components/forms/MedicationForms'
 import { HygieneForms } from '../components/forms/HygieneForms'

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import '../../../style.css'
+import '../style.css'
 
 function NoticeSend ({ mensaje }) {
   const [mostrar, setMostrar] = useState(true)
