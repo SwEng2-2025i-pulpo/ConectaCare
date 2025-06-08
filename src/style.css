@@ -1,2 +1,25 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary: #7db1bd;
+  --color-secondary: #173656;    /* Verde Salvia: salud y bienestar */
+  --color-tertiary: #E0E0E0;     /* Naranja Suave: energía y resalte */
+  --color-accent: #FFA726;   /* Gris Claro: fondo limpio y moderno */
+  --color-white: #FFFFFF; 
+}
+
+.font-montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.main-img{
+  @apply w-10/12 h-96 bg-cover bg-center rounded-xl;
+}
+
+.main-img__title{
+    @apply p-5 pb-2 text-3xl font-bold text-secondary;
+}
+
+.main-img__info{
+    @apply text-sm font-semibold pl-5 text-secondary mr-24;
+}

@@ -8,6 +8,12 @@ import { HygieneForms } from '../components/forms/HygieneForms'
 import { MonitoringForms } from '../components/forms/MonitoringForms'
 import { MedicalHistoryForms } from '../components/forms/MedicalHistoryForms'
 
+import { Header } from '../components/componentsLayout/Header'
+import { StickyActions } from '../components/componentsLayout/componentsPages/StickyActions'
+import { Footer } from '../components/componentsLayout/Footer'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUtensils, faSuitcaseMedical, faPumpMedical, faStethoscope, faNotesMedical } from '@fortawesome/free-solid-svg-icons'
+
 function Form ({
   registrosComida,
   setRegistrosComida,
@@ -43,37 +49,66 @@ function Form ({
   }
 
   return (
-    <div>
-      <h2>Registrar Cuidados</h2>
-      <ButtonForm titleForm='Alimentación' id={1} mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}>
-        <FoodForms onSubmit={agregarRegistroComida}>
-          <NoticeSend mensaje='¡Alimentación registrada correctamente!' />
-        </FoodForms>
-      </ButtonForm>
+    <div className='w-full h-auto flex flex-col justify-center items-center gap-5'>
+      <Header />
+      <StickyActions />
+      <main className='w-full h-auto flex flex-col justify-center
+    items-center gap-3'
+      >
+        <h2 className='text-secondary text-lg font-bold'>Registrar Cuidados</h2>
+        <ButtonForm
+          titleForm='Alimentación' id={1} mostrarFormulario={mostrarFormulario}
+          setMostrarFormulario={setMostrarFormulario}
+          icon={<FontAwesomeIcon icon={faUtensils} />}
+        >
+          <FoodForms onSubmit={agregarRegistroComida}>
+            <NoticeSend mensaje='¡Alimentación registrada correctamente!' />
+          </FoodForms>
+        </ButtonForm>
 
-      <ButtonForm titleForm='Medicación' id={2} mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}>
-        <MedicationForms onSubmit={agregarRegistroMedicacion}>
-          <NoticeSend mensaje='¡Medicación registrada correctamente!' />
-        </MedicationForms>
-      </ButtonForm>
+        <ButtonForm
+          titleForm='Medicación' id={2} mostrarFormulario={mostrarFormulario}
+          setMostrarFormulario={setMostrarFormulario}
+          icon={<FontAwesomeIcon icon={faSuitcaseMedical} />}
+        >
+          <MedicationForms onSubmit={agregarRegistroMedicacion}>
+            <NoticeSend mensaje='¡Medicación registrada correctamente!' />
+          </MedicationForms>
+        </ButtonForm>
 
-      <ButtonForm titleForm='Higiene' id={3} mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}>
-        <HygieneForms onSubmit={agregarRegistroHigiene}>
-          <NoticeSend mensaje='¡Higiene registrada correctamente!' />
-        </HygieneForms>
-      </ButtonForm>
+        <ButtonForm
+          titleForm='Higiene' id={3} mostrarFormulario={mostrarFormulario}
+          setMostrarFormulario={setMostrarFormulario}
+          icon={<FontAwesomeIcon icon={faPumpMedical} />}
+        >
+          <HygieneForms
+            onSubmit={agregarRegistroHigiene}
+          >
+            <NoticeSend mensaje='¡Higiene registrada correctamente!' />
+          </HygieneForms>
+        </ButtonForm>
 
-      <ButtonForm titleForm='Monitoreo' id={4} mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}>
-        <MonitoringForms onSubmit={agregarRegistroMonitoreo}>
-          <NoticeSend mensaje='¡Monitoreo registrado correctamente!' />
-        </MonitoringForms>
-      </ButtonForm>
+        <ButtonForm
+          titleForm='Monitoreo' id={4} mostrarFormulario={mostrarFormulario}
+          setMostrarFormulario={setMostrarFormulario}
+          icon={<FontAwesomeIcon icon={faStethoscope} />}
+        >
+          <MonitoringForms onSubmit={agregarRegistroMonitoreo}>
+            <NoticeSend mensaje='¡Monitoreo registrado correctamente!' />
+          </MonitoringForms>
+        </ButtonForm>
 
-      <ButtonForm titleForm='Historia medica' id={5} mostrarFormulario={mostrarFormulario} setMostrarFormulario={setMostrarFormulario}>
-        <MedicalHistoryForms onSubmit={agregarRegistroHistoriaMedica}>
-          <NoticeSend mensaje='¡Historia medica registrada correctamente!' />
-        </MedicalHistoryForms>
-      </ButtonForm>
+        <ButtonForm
+          titleForm='Historia medica' id={5} mostrarFormulario={mostrarFormulario}
+          setMostrarFormulario={setMostrarFormulario}
+          icon={<FontAwesomeIcon icon={faNotesMedical} />}
+        >
+          <MedicalHistoryForms onSubmit={agregarRegistroHistoriaMedica}>
+            <NoticeSend mensaje='¡Historia medica registrada correctamente!' />
+          </MedicalHistoryForms>
+        </ButtonForm>
+      </main>
+      <Footer />
     </div>
   )
 }

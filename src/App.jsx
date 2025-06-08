@@ -12,7 +12,7 @@ function App () {
   const [registrosHistoriaMedica, setRegistrosHistoriaMedica] = useState([])
 
   return (
-    <div className='w-screen h-screen bg-gray-700 text-amber-50'>
+    <div>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route
