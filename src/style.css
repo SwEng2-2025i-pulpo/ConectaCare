@@ -13,7 +13,7 @@
 }
 
 .main-img{
-  @apply w-10/12 h-96 bg-cover bg-center rounded-xl;
+    @apply w-10/12 h-96 bg-cover bg-center rounded-xl;
 }
 
 .main-img__title{
@@ -22,4 +22,40 @@
 
 .main-img__info{
     @apply text-sm font-semibold pl-5 text-secondary mr-24;
+}
+
+.div__form {
+    @apply w-full h-auto;
+}
+
+.form {
+    @apply w-full h-auto flex flex-col justify-center items-start pl-5 gap-4
+}
+
+.form-div {
+    @apply w-full h-auto flex flex-col;
+}
+
+.form-div__label {
+    @apply text-base font-medium;
+}
+
+.form-div__required {
+    @apply text-red-500 font-bold;
+}
+
+.form-div__input {
+    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb];
+}
+
+.form-div__error {
+    @apply p-1 text-xs font-medium text-red-500;
+}
+
+.div-main {
+    @apply w-full h-auto flex flex-col justify-center items-center gap-5;
+}
+
+.main-title {
+    @apply text-secondary text-lg font-bold;
 }

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
+import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
 const estadoCumplimientoOptions = [
   { value: '', label: 'Selcciona estado de cumplimiento' },
@@ -31,8 +32,8 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(send)}>
+    <div className='div__form'>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           id='fechaHora'
@@ -50,7 +51,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           error={errors.tipoHigiene}
         />
         <FormInput
-          label='Condiciones de la persona en el momento'
+          label='Condición paciente en el momento'
           id='condicionPersona'
           placeholder='Condición de la persona'
           register={register}
@@ -79,7 +80,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           placeholder='Observaciones'
           register={register}
         />
-        <button type='submit'>Enviar</button>
+        <ButtonSubmit type='submit' />
       </form>
       {isSubmitSuccessful && children}
     </div>

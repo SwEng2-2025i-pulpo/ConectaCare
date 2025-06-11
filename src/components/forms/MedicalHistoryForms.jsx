@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
+import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
 function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
@@ -16,8 +17,8 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(send)}>
+    <div className='div__form'>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           id='fechaHora'
@@ -40,7 +41,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
           placeholder='Observaciones'
           register={register}
         />
-        <button type='submit'>Enviar</button>
+        <ButtonSubmit tipe='Submit' />
       </form>
       {isSubmitSuccessful && children}
     </div>

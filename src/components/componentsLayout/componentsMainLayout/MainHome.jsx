@@ -4,7 +4,7 @@ import { InfoCard } from '../componentsPages/InfoCard'
 
 function MainHome () {
   return (
-    <main className='w-full h-auto flex flex-col justify-center items-center gap-6'>
+    <main className='div-main'>
       <StickyActions />
       <section className='w-full h-auto flex flex-col gap-7'>
         <h2 className='ml-9 text-secondary text-lg font-bold'>Bienvenio a ConectaCare</h2>

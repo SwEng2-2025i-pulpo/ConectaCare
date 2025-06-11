@@ -49,13 +49,11 @@ function Form ({
   }
 
   return (
-    <div className='w-full h-auto flex flex-col justify-center items-center gap-5'>
+    <div className='div-main'>
       <Header />
       <StickyActions />
-      <main className='w-full h-auto flex flex-col justify-center
-    items-center gap-3'
-      >
-        <h2 className='text-secondary text-lg font-bold'>Registrar Cuidados</h2>
+      <main className='div-main'>
+        <h2 className='main-title'>Registrar Cuidados</h2>
         <ButtonForm
           titleForm='Alimentación' id={1} mostrarFormulario={mostrarFormulario}
           setMostrarFormulario={setMostrarFormulario}

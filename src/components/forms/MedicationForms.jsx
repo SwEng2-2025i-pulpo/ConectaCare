@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { FormInput } from './/componentsForms/FormInput'
 import { FormSelect } from './/componentsForms/FormSelect'
 import { FormTextarea } from './/componentsForms/FormTextarea'
+import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
 const viaAdministracionOptions = [
   { value: '', label: 'Selecciona tipo de administración' },
@@ -34,8 +35,8 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(send)}>
+    <div className='div__form'>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           id='fechaHora'
@@ -82,7 +83,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
           placeholder='Observaciones'
           register={register}
         />
-        <button type='submit'>Enviar</button>
+        <ButtonSubmit type='submit' />
       </form>
       {isSubmitSuccessful && children}
     </div>

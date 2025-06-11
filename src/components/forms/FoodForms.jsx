@@ -3,6 +3,7 @@ import { useEffect } from 'react'
 import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
+import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
 const comidaOptions = [
   { value: '', label: 'Selecciona una comida' },
@@ -37,8 +38,8 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(send)}>
+    <div className='div__form'>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           id='fechaHora'
@@ -67,7 +68,7 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
           label='Hidratación'
           id='hidratacion'
           register={register}
-          required={{ required: 'Ingresar la descripción de la hidratación es obligatorio' }}
+          required={{ required: 'Ingresar la hidratación es obligatorio' }}
           error={errors.hidratacion}
           options={hidratacionOptions}
         />
@@ -77,7 +78,7 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
           placeholder='Observaciones'
           register={register}
         />
-        <button type='submit'>Enviar</button>
+        <ButtonSubmit type='submit' />
       </form>
       {isSubmitSuccessful && children}
     </div>

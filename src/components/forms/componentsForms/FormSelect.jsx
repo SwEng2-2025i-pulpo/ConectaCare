@@ -2,17 +2,29 @@ import '../../../style.css'
 
 function FormSelect ({ label, id, register, required, error, options }) {
   return (
-    <div>
-      <label htmlFor={id}>
+    <div className='form-div'>
+      <label className='form-div__label' htmlFor={id}>
         {label}
-        {required && <span className='text-red-600'>*</span>}
+        {required && <span className='form-div__required'> *</span>}
       </label>
-      <select id={id} {...register(id, required)}>
+      <select
+        className='form-div__input px-5 appearance-none
+       ' id={id}
+        {...register(id, required)}
+      >
         {options.map(opt => (
-          <option key={opt.value} value={opt.value}>{opt.label}</option>
+          <option
+            style={{
+              fontSize: '1rem',
+              color: '#173656',
+              backgroundColor: '#E0E0E0'
+            }}
+            key={opt.value} value={opt.value}
+          >{opt.label}
+          </option>
         ))}
       </select>
-      {error && <span>{error.message}</span>}
+      {error && <span className='form-div__error'>{error.message}</span>}
     </div>
   )
 }

@@ -2,13 +2,19 @@ import '../../../style.css'
 
 function FormInput ({ label, id, register, required, error, ...props }) {
   return (
-    <div>
-      <label htmlFor={id}>
+    <div className='form-div'>
+      <label className='form-div__label' htmlFor={id}>
         {label}
-        {required && <span className='text-red-600'>*</span>}
+        {required && <span className='form-div__required'> *</span>}
       </label>
-      <input id={id} {...register(id, required)} {...props} />
-      {error && <span>{error.message}</span>}
+      <input
+        className='form-div__input
+        focus:bg-white focus:outline-primary
+        '
+        id={id} {...register(id, required)}
+        {...props}
+      />
+      {error && <span className='form-div__error'>{error.message}</span>}
     </div>
   )
 }

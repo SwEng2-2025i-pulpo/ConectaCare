@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useEffect } from 'react'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
+import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
@@ -17,8 +18,8 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(send)}>
+    <div className='div__form'>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           id='fechaHora'
@@ -51,7 +52,7 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
           placeholder='Observaciones'
           register={register}
         />
-        <button type='submit'>Enviar</button>
+        <ButtonSubmit tipe='Submit' />
       </form>
       {isSubmitSuccessful && children}
     </div>
