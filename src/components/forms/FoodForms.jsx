@@ -4,6 +4,7 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
+import { postData } from '../../utils/api'
 
 const comidaOptions = [
   { value: '', label: 'Selecciona una comida' },
@@ -31,14 +32,18 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const send = (data) => {
+  const send = async (data) => {
     const dataToSend = {
       ...data,
-      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+      fechaHora: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
     }
-    onSubmit(dataToSend)
-    console.log('Datos enviados:', data)
-    reset()
+    try {
+      await postData('http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/meals', dataToSend)
+      // Muestra mensaje de éxito o limpia el formulario
+      reset()
+    } catch (error) {
+    // Maneja el error
+    }
   }
 
   return (
