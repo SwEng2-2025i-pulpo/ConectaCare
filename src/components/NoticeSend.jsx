@@ -15,8 +15,8 @@ function NoticeSend ({ mensaje }) {
 
   return (
     <section className='absolute inset-0 w-screen h-screen grid place-items-center bg-black/70'>
-      <h1>{mensaje}</h1>
-      <button onClick={toggleSalir}>Salir</button>
+      <h1 className='text-white'>{mensaje}</h1>
+      <button className='text-white' onClick={toggleSalir}>Salir</button>
     </section>
   )
 }

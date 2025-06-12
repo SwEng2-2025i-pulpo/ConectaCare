@@ -30,7 +30,12 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
   }, [defaultValues, reset])
 
   const send = (data) => {
-    onSubmit(data)
+    const dataToSend = {
+      ...data,
+      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+    }
+    onSubmit(dataToSend)
+    console.log('Datos enviados:', data)
     reset()
   }
 
@@ -39,7 +44,8 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
       <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
-          id='fechaHora'
+          type='datetime-local'
+          id='datetime'
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
@@ -47,7 +53,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
         />
         <FormInput
           label='Nombre del medicamento'
-          id='nombreMedicamento'
+          id='medication_name'
           placeholder='Descripción medicamento'
           register={register}
           required={{ required: 'Ingresar el medicamento es obligatorio.' }}
@@ -55,7 +61,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
         />
         <FormInput
           label='Dosis del medicamento'
-          id='dosisAdministrada'
+          id='dose'
           placeholder='Descripción dosis'
           register={register}
           required={{ required: 'Ingresar la dosis administrada' }}
@@ -63,7 +69,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
         />
         <FormSelect
           label='Vía de administración'
-          id='viaAdministracion'
+          id='route'
           register={register}
           required={{ required: 'Ingresar la vía de admin' }}
           error={errors.viaAdministracion}
@@ -71,7 +77,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
         />
         <FormSelect
           label='Estado de cumplimiento'
-          id='estadoCumplimiento'
+          id='status'
           register={register}
           required={{ required: 'Estado del cumplimiento' }}
           error={errors.estadoCumplimiento}
@@ -80,7 +86,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
         <FormTextarea
           label='Observaciones'
           id='observaciones'
-          placeholder='Observaciones'
+          placeholder='observations'
           register={register}
         />
         <ButtonSubmit type='submit' />

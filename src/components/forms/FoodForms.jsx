@@ -32,7 +32,11 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
   }, [defaultValues, reset])
 
   const send = (data) => {
-    onSubmit(data)
+    const dataToSend = {
+      ...data,
+      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+    }
+    onSubmit(dataToSend)
     console.log('Datos enviados:', data)
     reset()
   }
@@ -42,15 +46,16 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
       <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
-          id='fechaHora'
-          placeholder='fecha y hora'
+          type='datetime-local'
+          id='datetime'
+          placeholder='Fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
           error={errors.fechaHora}
         />
         <FormSelect
           label='Comida del día'
-          id='comidaDelDia'
+          id='meal_type'
           register={register}
           required={{ required: 'Ingresar el tipo de comida es obligatorio.' }}
           error={errors.comidaDelDia}
@@ -58,7 +63,7 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
         />
         <FormInput
           label='Descripción del alimento consumido'
-          id='descripcionAlimento'
+          id='description'
           placeholder='Descripción alimento'
           register={register}
           required={{ required: 'Ingresar la descripción del alimento es obligatorio' }}
@@ -66,7 +71,7 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
         />
         <FormSelect
           label='Hidratación'
-          id='hidratacion'
+          id='hydration'
           register={register}
           required={{ required: 'Ingresar la hidratación es obligatorio' }}
           error={errors.hidratacion}
@@ -74,7 +79,7 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
         />
         <FormTextarea
           label='Observaciones'
-          id='observaciones'
+          id='observations'
           placeholder='Observaciones'
           register={register}
         />

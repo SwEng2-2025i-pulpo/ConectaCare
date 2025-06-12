@@ -12,7 +12,12 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   }, [defaultValues, reset])
 
   const send = (data) => {
-    onSubmit(data)
+    const dataToSend = {
+      ...data,
+      date: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+    }
+    onSubmit(dataToSend)
+    console.log('Datos enviados:', data)
     reset()
   }
 
@@ -21,7 +26,8 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
       <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
-          id='fechaHora'
+          type='datetime-local'
+          id='date'
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
@@ -29,7 +35,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
         />
         <FormInput
           label='Descripción del síntoma'
-          id='descripcionSintoma'
+          id='description'
           placeholder='Descripción del síntoma'
           register={register}
           required={{ required: 'La descripción es obligatorios' }}
@@ -37,7 +43,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
         />
         <FormTextarea
           label='Observaciones'
-          id='observaciones'
+          id='notes'
           placeholder='Observaciones'
           register={register}
         />

@@ -12,8 +12,15 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
   }, [defaultValues, reset])
 
   const send = (data) => {
-    onSubmit(data)
-    console.log('Datos enviados:', data)
+    const dataToSend = {
+      datetime: data.datetime ? new Date(data.datetime).toISOString() : '',
+      blood_pressure: {
+        systolic: Number(data.systolic),
+        diastolic: Number(data.diastolic)
+      }
+    }
+    console.log('Datos enviados:', dataToSend)
+    onSubmit(dataToSend)
     reset()
   }
 
@@ -22,33 +29,37 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
       <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
-          id='fechaHora'
+          type='datetime-local'
+          id='datetime'
           placeholder='fecha y hora'
           register={register}
         />
-        <FormInput
-          label='Peso en kg'
-          id='pesoKg'
-          type='number'
-          placeholder='Peso'
-          register={register}
-        />
-        <FormInput
-          label='Presión sanguínea en mmHg'
-          id='presionSanguinea'
-          placeholder='Presión sanguínea'
-          register={register}
-        />
+        <div className='flex gap-3 w-full'>
+          <FormInput
+            label='Presión sistólica (mmHg)'
+            id='systolic'
+            type='number'
+            placeholder='Sistólica'
+            register={register}
+          />
+          <FormInput
+            label='Presión diastólica (mmHg)'
+            id='diastolic'
+            type='number'
+            placeholder='Diastólica'
+            register={register}
+          />
+        </div>
         <FormInput
           label='Frecuencia cardíaca en lpm'
-          id='frecuenciaCardiaca'
+          id='heart_rate'
           type='number'
           placeholder='Frecuencia cardíaca'
           register={register}
         />
         <FormTextarea
           label='Observaciones'
-          id='observaciones'
+          id='observations'
           placeholder='Observaciones'
           register={register}
         />

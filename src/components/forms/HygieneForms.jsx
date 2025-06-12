@@ -27,7 +27,12 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
   }, [defaultValues, reset])
 
   const send = (data) => {
-    onSubmit(data)
+    const dataToSend = {
+      ...data,
+      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+    }
+    onSubmit(dataToSend)
+    console.log('Datos enviados:', data)
     reset()
   }
 
@@ -36,7 +41,8 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
       <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
-          id='fechaHora'
+          type='datetime-local'
+          id='datetime'
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
@@ -44,7 +50,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
         />
         <FormInput
           label='Tipo de higiene'
-          id='tipoHigiene'
+          id='type'
           placeholder='Tipo de higiene'
           register={register}
           required={{ required: 'El tipo de higiene es obligatorio' }}
@@ -52,7 +58,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
         />
         <FormInput
           label='Condición paciente en el momento'
-          id='condicionPersona'
+          id='condition'
           placeholder='Condición de la persona'
           register={register}
           required={{ required: 'Ingresar la condición es obligatorio' }}
@@ -60,7 +66,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
         />
         <FormSelect
           label='Estado de cumplimiento'
-          id='estadoCumplimiento'
+          id='status'
           register={register}
           options={estadoCumplimientoOptions}
           required={{ required: 'Seleccionar estado de cumplimiento es obligatorio' }}
@@ -68,7 +74,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
         />
         <FormSelect
           label='Nivel de asistencia'
-          id='nivelAsistencia'
+          id='assistance_level'
           register={register}
           options={nivelAsistenciaOptions}
           required={{ required: 'Seleccionar nivel de asistencia es obligatorio' }}
@@ -76,7 +82,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
         />
         <FormTextarea
           label='Observaciones'
-          id='observaciones'
+          id='observations'
           placeholder='Observaciones'
           register={register}
         />
