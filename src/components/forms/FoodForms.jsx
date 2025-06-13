@@ -4,7 +4,8 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
-import { postData } from '../../utils/api'
+
+import { postData } from '../../utils/apiPost.js'
 
 const comidaOptions = [
   { value: '', label: 'Selecciona una comida' },
@@ -28,18 +29,22 @@ const hidratacionOptions = [
 const FoodForms = ({ children, onSubmit, defaultValues }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
+  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/meals'
+
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
   const send = async (data) => {
     const dataToSend = {
-      ...data,
-      fechaHora: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+      meal_type: data.meal_type,
+      description: data.description,
+      hydration: data.hydration,
+      observations: data.observations,
+      datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
     try {
-      await postData('http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/meals', dataToSend)
-      // Muestra mensaje de éxito o limpia el formulario
+      await postData(endPointPost, dataToSend)
       reset()
     } catch (error) {
     // Maneja el error
@@ -56,14 +61,14 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
           placeholder='Fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
-          error={errors.fechaHora}
+          error={errors.datetime}
         />
         <FormSelect
           label='Comida del día'
           id='meal_type'
           register={register}
           required={{ required: 'Ingresar el tipo de comida es obligatorio.' }}
-          error={errors.comidaDelDia}
+          error={errors.meal_type}
           options={comidaOptions}
         />
         <FormInput
@@ -72,14 +77,14 @@ const FoodForms = ({ children, onSubmit, defaultValues }) => {
           placeholder='Descripción alimento'
           register={register}
           required={{ required: 'Ingresar la descripción del alimento es obligatorio' }}
-          error={errors.descripcionAlimento}
+          error={errors.description}
         />
         <FormSelect
           label='Hidratación'
           id='hydration'
           register={register}
           required={{ required: 'Ingresar la hidratación es obligatorio' }}
-          error={errors.hidratacion}
+          error={errors.hydration}
           options={hidratacionOptions}
         />
         <FormTextarea

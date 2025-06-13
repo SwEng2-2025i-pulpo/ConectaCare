@@ -4,21 +4,30 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
+import { postData } from '../../utils/apiPost.js'
+
 function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+
+  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/medical_history'
 
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const send = (data) => {
+  const send = async (data) => {
     const dataToSend = {
-      ...data,
-      date: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+      description: data.description,
+      notes: data.notes,
+      date: data.date ? new Date(data.date).toISOString() : ''
     }
-    onSubmit(dataToSend)
-    console.log('Datos enviados:', data)
-    reset()
+    try {
+      await postData(endPointPost, dataToSend)
+      reset()
+    } catch (error) {
+      console.log(dataToSend)
+    // Maneja el error
+    }
   }
 
   return (
@@ -31,7 +40,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
-          error={errors.fechaHora}
+          error={errors.date}
         />
         <FormInput
           label='Descripción del síntoma'
@@ -39,7 +48,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
           placeholder='Descripción del síntoma'
           register={register}
           required={{ required: 'La descripción es obligatorios' }}
-          error={errors.descripcionSintoma}
+          error={errors.description}
         />
         <FormTextarea
           label='Observaciones'

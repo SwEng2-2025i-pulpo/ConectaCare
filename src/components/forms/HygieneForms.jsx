@@ -5,6 +5,8 @@ import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
+import { postData } from '../../utils/apiPost.js'
+
 const estadoCumplimientoOptions = [
   { value: '', label: 'Selcciona estado de cumplimiento' },
   { value: 'realizada', label: 'Realizada' },
@@ -22,18 +24,28 @@ const nivelAsistenciaOptions = [
 function HygieneForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
+  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/hygiene_logs'
+
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const send = (data) => {
+  const send = async (data) => {
     const dataToSend = {
-      ...data,
-      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+      meal_type: data.meal_type,
+      type: data.type,
+      condition: data.condition,
+      status: data.status,
+      assistance_level: data.assistance_level,
+      observations: data.observations,
+      datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
-    onSubmit(dataToSend)
-    console.log('Datos enviados:', data)
-    reset()
+    try {
+      await postData(endPointPost, dataToSend)
+      reset()
+    } catch (error) {
+    // Maneja el error
+    }
   }
 
   return (
@@ -46,7 +58,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
-          error={errors.fechaHora}
+          error={errors.datetime}
         />
         <FormInput
           label='Tipo de higiene'
@@ -54,7 +66,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           placeholder='Tipo de higiene'
           register={register}
           required={{ required: 'El tipo de higiene es obligatorio' }}
-          error={errors.tipoHigiene}
+          error={errors.type}
         />
         <FormInput
           label='Condición paciente en el momento'
@@ -62,7 +74,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           placeholder='Condición de la persona'
           register={register}
           required={{ required: 'Ingresar la condición es obligatorio' }}
-          error={errors.condicionPersona}
+          error={errors.condition}
         />
         <FormSelect
           label='Estado de cumplimiento'
@@ -70,7 +82,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           register={register}
           options={estadoCumplimientoOptions}
           required={{ required: 'Seleccionar estado de cumplimiento es obligatorio' }}
-          error={errors.estadoCumplimiento}
+          error={errors.status}
         />
         <FormSelect
           label='Nivel de asistencia'
@@ -78,7 +90,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
           register={register}
           options={nivelAsistenciaOptions}
           required={{ required: 'Seleccionar nivel de asistencia es obligatorio' }}
-          error={errors.nivelAsistencia}
+          error={errors.assistance_level}
         />
         <FormTextarea
           label='Observaciones'

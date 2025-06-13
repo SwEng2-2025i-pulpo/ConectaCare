@@ -25,10 +25,10 @@ function Records ({
   const [editando, setEditando] = useState(null)
 
   return (
-    <div className=''>
+    <div className='div-main'>
       <Header />
       <StickyActions />
-      <main className=''>
+      <main className='min-h-100'>
         <h2 className='main-title'>Registros de Cuidados</h2>
         <ViewEditRecords
           registros={registrosComida || []}

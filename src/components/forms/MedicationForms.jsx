@@ -5,6 +5,8 @@ import { FormSelect } from './/componentsForms/FormSelect'
 import { FormTextarea } from './/componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 
+import { postData } from '../../utils/apiPost.js'
+
 const viaAdministracionOptions = [
   { value: '', label: 'Selecciona tipo de administración' },
   { value: 'oral', label: 'Oral' },
@@ -25,18 +27,29 @@ const estadoCumplimientoOptions = [
 export default function MedicationForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
+  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/medication_logs'
+
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const send = (data) => {
+  const send = async (data) => {
     const dataToSend = {
-      ...data,
-      datetime: data.fechaHora ? new Date(data.fechaHora).toISOString() : ''
+      medication_name: data.medication_name,
+      dose: data.dose,
+      route: data.route,
+      status: data.status,
+      observations: data.observations,
+      datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
-    onSubmit(dataToSend)
-    console.log('Datos enviados:', data)
-    reset()
+    try {
+      await postData(endPointPost, dataToSend)
+      console.log('Datos enviados correctamente:', dataToSend)
+      reset()
+    } catch (error) {
+      console.log('Datos enviados:', dataToSend)
+    // Maneja el error
+    }
   }
 
   return (
@@ -49,7 +62,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
           placeholder='fecha y hora'
           register={register}
           required={{ required: 'La fecha y hora son obligatorios' }}
-          error={errors.fechaHora}
+          error={errors.datetime}
         />
         <FormInput
           label='Nombre del medicamento'
@@ -57,7 +70,7 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
           placeholder='Descripción medicamento'
           register={register}
           required={{ required: 'Ingresar el medicamento es obligatorio.' }}
-          error={errors.nombreMedicamento}
+          error={errors.medication_name}
         />
         <FormInput
           label='Dosis del medicamento'
@@ -65,14 +78,14 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
           placeholder='Descripción dosis'
           register={register}
           required={{ required: 'Ingresar la dosis administrada' }}
-          error={errors.dosisAdministrada}
+          error={errors.dose}
         />
         <FormSelect
           label='Vía de administración'
           id='route'
           register={register}
           required={{ required: 'Ingresar la vía de admin' }}
-          error={errors.viaAdministracion}
+          error={errors.route}
           options={viaAdministracionOptions}
         />
         <FormSelect
@@ -80,13 +93,13 @@ export default function MedicationForms ({ children, onSubmit, defaultValues }) 
           id='status'
           register={register}
           required={{ required: 'Estado del cumplimiento' }}
-          error={errors.estadoCumplimiento}
+          error={errors.status}
           options={estadoCumplimientoOptions}
         />
         <FormTextarea
           label='Observaciones'
-          id='observaciones'
-          placeholder='observations'
+          id='observations'
+          placeholder='Observaciones'
           register={register}
         />
         <ButtonSubmit type='submit' />

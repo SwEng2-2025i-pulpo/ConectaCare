@@ -8,6 +8,11 @@ function Header () {
       <Link to='/'>
         <img className='h-full' src={logo} alt='Logo aplicacion' />
       </Link>
+      <nav className='hidden lg:flex'>
+        <Link className='lg' to='/form'>
+          Holi
+        </Link>
+      </nav>
     </header>
   )
 }

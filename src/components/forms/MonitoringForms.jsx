@@ -3,25 +3,35 @@ import { useEffect } from 'react'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
+import { postData } from '../../utils/apiPost.js'
+
+// ...resto del código...
 
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+
+  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/vital_signs'
 
   useEffect(() => {
     reset(defaultValues)
   }, [defaultValues, reset])
 
-  const send = (data) => {
+  const send = async (data) => {
     const dataToSend = {
       datetime: data.datetime ? new Date(data.datetime).toISOString() : '',
+      heart_rate: Number(data.heart_rate),
+      observations: data.observations,
       blood_pressure: {
         systolic: Number(data.systolic),
         diastolic: Number(data.diastolic)
       }
     }
-    console.log('Datos enviados:', dataToSend)
-    onSubmit(dataToSend)
-    reset()
+    try {
+      await postData(endPointPost, dataToSend)
+      reset()
+    } catch (error) {
+    // Maneja el error
+    }
   }
 
   return (
@@ -34,7 +44,7 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
           placeholder='fecha y hora'
           register={register}
         />
-        <div className='flex gap-3 w-full'>
+        <div className='flex gap-3 w-[95%]'>
           <FormInput
             label='Presión sistólica (mmHg)'
             id='systolic'
