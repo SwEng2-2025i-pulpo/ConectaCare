@@ -2,7 +2,7 @@ import '../../../style.css'
 import { ButtonHome } from './ButtonHome'
 import { ButtonLink } from './ButtonLink'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEye, faFileLines } from '@fortawesome/free-solid-svg-icons'
 import { ButtonPdf } from './ButtonPdf'
 
 function StickyActions () {
@@ -27,7 +27,7 @@ function StickyActions () {
       <div className='stickyactions__div px-2'>
         <ButtonPdf
           titleButton='Descargar PDF'
-          icon={<FontAwesomeIcon icon={faEye} />}
+          icon={<FontAwesomeIcon icon={faFileLines} />}
           patientId={id} // Replace with actual patient ID
         />
       </div>
