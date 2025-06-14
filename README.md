@@ -11,6 +11,8 @@ ConectaCare es una aplicación web frontend desarrollada en React que permite ge
 - *Estilos*: CSS personalizado
 
 ## 3. Estructura del Proyecto
+
+```
 ConectaCare/
 ├── node_modules/
 ├── public/
@@ -35,6 +37,7 @@ ConectaCare/
 │   │   │       ├── ButtonHome.jsx
 │   │   │       ├── ButtonLink.jsx
 │   │   │       ├── InfoCard.jsx
+│   │   │       ├── ButtonPdf.jsx
 │   │   │       └── StickyActions.jsx
 │   │   ├── componentsRecord/
 │   │   │   └── ViewEditRecords.jsx
@@ -66,6 +69,7 @@ ConectaCare/
 ├── package-lock.json
 ├── README.md
 └── vite.config.js
+```
 
 
 ## 4. Componentes Principales

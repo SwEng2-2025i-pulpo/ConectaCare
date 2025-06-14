@@ -25,10 +25,10 @@ function Records ({
   const [editando, setEditando] = useState(null)
   const id = '684cadfec42b9cab643ad7a7'
 
-  // const endPointGetFood = `http://127.0.0.1:8000/patients/${id}/meals`
-  // const endPointGetMedication = `http://127.0.0.1:8000/patients/${id}/medication_logs`
-  // const endPointGetHygiene = `http://127.0.0.1:8000/patients/${id}/hygiene_logs`
-  // const endPointGetMonitoring = `http://127.0.0.1:8000/patients/${id}/vital_signs`
+  const endPointGetFood = `http://127.0.0.1:8000/patients/${id}/meals`
+  const endPointGetMedication = `http://127.0.0.1:8000/patients/${id}/medication_logs`
+  const endPointGetHygiene = `http://127.0.0.1:8000/patients/${id}/hygiene_logs`
+  const endPointGetMonitoring = `http://127.0.0.1:8000/patients/${id}/vital_signs`
   const endPointGetMedicalHistory = `http://127.0.0.1:8000/patients/${id}/medical_history`
 
   return (
@@ -50,7 +50,7 @@ function Records ({
           editando={editando}
           setEditando={setEditando}
           tipo='comida'
-          // endPoint={endPointGetFood}
+          endPoint={endPointGetFood}
         />
         <ViewEditRecords
           registros={registrosMedicacion || []}
@@ -66,7 +66,7 @@ function Records ({
           editando={editando}
           setEditando={setEditando}
           tipo='medicacion'
-          // endPoint={endPointGetMedication}
+          endPoint={endPointGetMedication}
         />
         <ViewEditRecords
           registros={registrosHigiene || []}
@@ -82,7 +82,7 @@ function Records ({
           editando={editando}
           setEditando={setEditando}
           tipo='higiene'
-          // endPoint={endPointGetHygiene}
+          endPoint={endPointGetHygiene}
         />
         <ViewEditRecords
           registros={registrosMonitoreo || []}
@@ -96,7 +96,7 @@ function Records ({
           editando={editando}
           setEditando={setEditando}
           tipo='Monitoreo'
-          // endPoint={endPointGetMonitoring}
+          endPoint={endPointGetMonitoring}
         />
         <ViewEditRecords
           registros={registrosHistoriaMedica || []}

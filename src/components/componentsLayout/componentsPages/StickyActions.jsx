@@ -3,22 +3,34 @@ import { ButtonHome } from './ButtonHome'
 import { ButtonLink } from './ButtonLink'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faEye } from '@fortawesome/free-solid-svg-icons'
+import { ButtonPdf } from './ButtonPdf'
 
 function StickyActions () {
+  const id = '684cadfec42b9cab643ad7a7'
+
   return (
-    <section className='flex flex-row justify-center items-center gap-5 w-full h-auto sticky top-0 p-3 bg-white'>
-      <ButtonLink to='/form'>
-        <ButtonHome
-          titleButton='Registrar cuidado'
-          icon={<FontAwesomeIcon icon={faPlus} />}
-        />
-      </ButtonLink>
-      <ButtonLink to='/registros'>
-        <ButtonHome
-          titleButton='Ver registros'
+    <section className='div-main sticky top-0 p-3 bg-white'>
+      <div className='stickyactions__div'>
+        <ButtonLink to='/form'>
+          <ButtonHome
+            titleButton='Registrar cuidado'
+            icon={<FontAwesomeIcon icon={faPlus} />}
+          />
+        </ButtonLink>
+        <ButtonLink to='/registros'>
+          <ButtonHome
+            titleButton='Ver registros'
+            icon={<FontAwesomeIcon icon={faEye} />}
+          />
+        </ButtonLink>
+      </div>
+      <div className='stickyactions__div px-2'>
+        <ButtonPdf
+          titleButton='Descargar PDF'
           icon={<FontAwesomeIcon icon={faEye} />}
+          patientId={id} // Replace with actual patient ID
         />
-      </ButtonLink>
+      </div>
     </section>
   )
 }
