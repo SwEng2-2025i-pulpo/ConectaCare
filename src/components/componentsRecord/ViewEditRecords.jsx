@@ -1,6 +1,8 @@
 import '../../style.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { NoticeSend } from '../NoticeSend'
+import { getData } from '../../utils/apiGet'
+import { putData } from '../../utils/apitPut'
 
 function ViewEditRecords ({
   registros = [],
@@ -10,18 +12,40 @@ function ViewEditRecords ({
   camposMostrar,
   editando,
   setEditando,
-  tipo
+  tipo,
+  endPoint
 }) {
   const [editIndex, setEditIndex] = useState(null)
   const [mensaje, setMensaje] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const handleEdit = (index) => {
     setEditIndex(index)
     setEditando(tipo)
     setMensaje('')
   }
+  useEffect(() => {
+    getData(endPoint)
+      .then(data => {
+        setRegistros(data)
+        setLoading(false)
+      })
+      .catch(err => {
+        setError(err.message)
+        setLoading(false)
+      })
+  }, [])
 
-  const handleUpdate = (data) => {
+  if (loading) return <div>Cargando...</div>
+  if (error) return <div>Error: {error}</div>
+
+  // Si no hay registros, no renderizar nada
+  if (!registros || registros.length === 0) {
+    return null
+  }
+
+  const handleUpdate = async (data) => {
     const original = registros[editIndex]
     if (JSON.stringify(original) === JSON.stringify(data)) {
       setMensaje('No se realizaron cambios')
@@ -29,17 +53,21 @@ function ViewEditRecords ({
       setEditando(null)
       return
     }
-    const nuevosRegistros = [...registros]
-    nuevosRegistros[editIndex] = data
-    setRegistros(nuevosRegistros)
-    setEditIndex(null)
-    setEditando(null)
-    setMensaje(comunicado)
-  }
 
-  // Si no hay registros, no renderizar nada
-  if (!registros || registros.length === 0) {
-    return null
+    try {
+      const id = original.id // Asegúrate de que cada registro tenga un id
+      const url = `${endPoint}/${id}`
+      const updated = await putData(url, data)
+
+      const nuevosRegistros = [...registros]
+      nuevosRegistros[editIndex] = updated
+      setRegistros(nuevosRegistros)
+      setEditIndex(null)
+      setEditando(null)
+      setMensaje(comunicado)
+    } catch (error) {
+      setMensaje('Error al actualizar el registro')
+    }
   }
 
   // Si se está editando otro tipo, renderizar solo un placeholder para mantener el espacio
@@ -57,7 +85,15 @@ function ViewEditRecords ({
                   <div>
                     {camposMostrar.map((campo, i) => (
                       <span key={i}>
-                        {registros[index][campo]}
+                        <span>{campo}:</span>{' '}
+                        {(campo === 'datetime' || campo === 'date')
+                          ? new Date(registros[index][campo]).toLocaleString('es-CO', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                          })
+                          : campo === 'blood_pressure'
+                            ? `Sistólica: ${registros[index][campo]?.systolic ?? '-'} / Diastólica: ${registros[index][campo]?.diastolic ?? '-'}`
+                            : registros[index][campo]}
                         {i < camposMostrar.length - 1 ? ' | ' : ''}
                       </span>
                     ))}
@@ -88,6 +124,7 @@ function ViewEditRecords ({
           {registros.map((registro, index) => {
             // Si estamos editando este registro específico
             if (editando === tipo && editIndex === index) {
+              console.log('Editando registro:', registro)
               return (
                 <div
                   key={`edit-${tipo}-${index}`}
@@ -112,9 +149,17 @@ function ViewEditRecords ({
                 <div className='flex flex-col w-[90%] justify-center items-start p-4 gap-5 text-base font-semibold text-secondary bg-gray-100 rounded-3xl'>
                   <div>
                     {camposMostrar.map((campo, i) => (
-                      <span key={i}>
-                        {registro[campo]}
-                        {i < camposMostrar.length - 1 ? ' | ' : ''}
+                      <span className='font-medium' key={i}>
+                        <span className='font-bold'>{campo}:</span>{' '}
+                        {(campo === 'datetime' || campo === 'date')
+                          ? new Date(registros[index][campo]).toLocaleString('es-CO', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                          })
+                          : campo === 'blood_pressure'
+                            ? `Sistólica: ${registros[index][campo]?.systolic ?? '-'} / Diastólica: ${registros[index][campo]?.diastolic ?? '-'}`
+                            : registros[index][campo]}
+                        {i < camposMostrar.length - 1 && <br />}
                       </span>
                     ))}
                   </div>

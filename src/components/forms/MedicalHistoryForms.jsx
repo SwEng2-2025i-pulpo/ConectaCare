@@ -9,7 +9,7 @@ import { postData } from '../../utils/apiPost.js'
 function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/6844542131d0bcb293fff9a1/medical_history'
+  const endPointPost = 'http://127.0.0.1:8000/patients/684cadfec42b9cab643ad7a7/medical_history'
 
   useEffect(() => {
     reset(defaultValues)
@@ -23,6 +23,7 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
     }
     try {
       await postData(endPointPost, dataToSend)
+      console.log(dataToSend, 'dataToSend')
       reset()
     } catch (error) {
       console.log(dataToSend)
