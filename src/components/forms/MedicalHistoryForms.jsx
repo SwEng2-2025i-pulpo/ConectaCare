@@ -31,9 +31,11 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
     }
   }
 
+  const submitHandler = onSubmit || send
+
   return (
     <div className='div__form'>
-      <form className='form' onSubmit={handleSubmit(send)}>
+      <form className='form' onSubmit={handleSubmit(submitHandler)}>
         <FormInput
           label='Fecha y hora'
           type='datetime-local'

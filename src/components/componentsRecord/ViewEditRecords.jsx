@@ -19,6 +19,7 @@ function ViewEditRecords ({
   const [mensaje, setMensaje] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [refresh, setRefresh] = useState(false)
 
   const handleEdit = (index) => {
     setEditIndex(index)
@@ -35,7 +36,7 @@ function ViewEditRecords ({
         setError(err.message)
         setLoading(false)
       })
-  }, [])
+  }, [refresh])
 
   if (loading) return <div>Cargando...</div>
   if (error) return <div>Error: {error}</div>
@@ -55,16 +56,15 @@ function ViewEditRecords ({
     }
 
     try {
-      const id = original.id // Asegúrate de que cada registro tenga un id
-      const url = `${endPoint}/${id}`
-      const updated = await putData(url, data)
-
+      const updated = await putData(endPoint, data)
       const nuevosRegistros = [...registros]
-      nuevosRegistros[editIndex] = updated
+      // Fusiona el original y el actualizado
+      nuevosRegistros[editIndex] = { ...registros[editIndex], ...updated }
       setRegistros(nuevosRegistros)
       setEditIndex(null)
       setEditando(null)
       setMensaje(comunicado)
+      setRefresh(!refresh)
     } catch (error) {
       setMensaje('Error al actualizar el registro')
     }
