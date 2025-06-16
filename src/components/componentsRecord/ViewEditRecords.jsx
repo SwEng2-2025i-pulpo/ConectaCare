@@ -31,6 +31,7 @@ function ViewEditRecords ({
       .then(data => {
         setRegistros(data)
         setLoading(false)
+        console.log('Registros:', data)
       })
       .catch(err => {
         setError(err.message)
@@ -46,19 +47,21 @@ function ViewEditRecords ({
     return null
   }
 
+  // ...existing code...
   const handleUpdate = async (data) => {
     const original = registros[editIndex]
-    if (JSON.stringify(original) === JSON.stringify(data)) {
-      setMensaje('No se realizaron cambios')
-      setEditIndex(null)
-      setEditando(null)
+    // Usa el campo correcto según tu backend: uuid, id, _id, etc.
+    const id = original.uuid || original.id || original._id
+    if (!id) {
+      setMensaje('No se encontró el identificador del registro')
       return
     }
+    const url = `${endPoint}/${id}`
+    console.log('PUT a:', url, 'con datos:', data)
 
     try {
-      const updated = await putData(endPoint, data)
+      const updated = await putData(url, data)
       const nuevosRegistros = [...registros]
-      // Fusiona el original y el actualizado
       nuevosRegistros[editIndex] = { ...registros[editIndex], ...updated }
       setRegistros(nuevosRegistros)
       setEditIndex(null)
@@ -69,20 +72,21 @@ function ViewEditRecords ({
       setMensaje('Error al actualizar el registro')
     }
   }
+  // ...existing code...
 
   // Si se está editando otro tipo, renderizar solo un placeholder para mantener el espacio
   if (editando !== null && editando !== tipo) {
     return (
       <div className='w-full'>
-        <div className='w-full bg-red-400 p-5'>
+        <div className='w-full p-5'>
           <div className='w-full space-y-5'>
             {registros.map((_, index) => (
               <div
                 key={`placeholder-${tipo}-${index}`}
-                className='w-full flex justify-center mb-5'
+                className='w-full flex justify-center'
               >
                 <div className='flex flex-col w-[90%] justify-center items-start p-4 gap-5 text-base font-semibold text-gray-400 bg-gray-200 rounded-3xl opacity-50'>
-                  <div>
+                  <div className='flex flex-wrap gap-2'>
                     {camposMostrar.map((campo, i) => (
                       <span key={i}>
                         <span>{campo}:</span>{' '}
@@ -100,7 +104,7 @@ function ViewEditRecords ({
                   </div>
                   <div className='flex justify-center w-full'>
                     <button
-                      className='w-1/2 h-auto flex justify-center bg-gray-400 p-1 border-1 rounded-3xl text-white cursor-not-allowed opacity-50'
+                      className='viewEdit__button-enviar'
                       disabled
                     >
                       Editar
@@ -117,9 +121,9 @@ function ViewEditRecords ({
 
   return (
     <div className='w-full'>
-      {mensaje && <NoticeSend mensaje={mensaje} />}
+      {mensaje && <NoticeSend mensaje={mensaje} onClose={() => setMensaje('')} />}
 
-      <div className='w-full p-5'>
+      <div className='w-full'>
         <div className='w-full'>
           {registros.map((registro, index) => {
             // Si estamos editando este registro específico
@@ -128,7 +132,10 @@ function ViewEditRecords ({
               return (
                 <div
                   key={`edit-${tipo}-${index}`}
-                  className='w-full flex justify-center mb-5'
+                  className='
+                  w-full flex justify-center mb-5
+                  lg:pl-[300px]
+                  '
                 >
                   <div className='w-[90%]'>
                     <FormComponent
@@ -146,7 +153,7 @@ function ViewEditRecords ({
                 key={`registro-${tipo}-${index}`}
                 className='w-full flex justify-center mb-5'
               >
-                <div className='flex flex-col w-[90%] justify-center items-start p-4 gap-5 text-base font-semibold text-secondary bg-gray-100 rounded-3xl'>
+                <div className='flex flex-col w-[90%] justify-center items-start p-4 gap-5 text-base font-semibold text-secondary bg-gray-100 rounded-3xl lg:w-[70%]'>
                   <div>
                     {camposMostrar.map((campo, i) => (
                       <span className='font-medium' key={i}>
@@ -165,7 +172,7 @@ function ViewEditRecords ({
                   </div>
                   <div className='flex justify-center w-full'>
                     <button
-                      className='w-1/2 h-auto flex justify-center bg-secondary p-1 border-1 rounded-3xl text-white hover:bg-white hover:text-secondary transition-colors disabled:opacity-50'
+                      className='viewEdit__button-enviar'
                       onClick={() => handleEdit(index)}
                       disabled={editando !== null}
                     >

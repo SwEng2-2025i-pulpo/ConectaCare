@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
+/* Estilos base */
 @theme {
-  --color-primary: #7db1bd;
+  --color-primary: #7eb2be;
   --color-secondary: #173656;    /* Verde Salvia: salud y bienestar */
   --color-tertiary: #E0E0E0;     /* Naranja Suave: energía y resalte */
   --color-accent: #FFA726;   /* Gris Claro: fondo limpio y moderno */
@@ -12,8 +13,24 @@
   font-family: "Montserrat", sans-serif;
 }
 
+/* Header */
+.nav__ul__li {
+    @apply transition-transform duration-200 hover:scale-110
+
+}
+
+/* main */
+.main {
+    @apply w-full h-auto flex flex-col justify-center items-center gap-5;
+}
+
+.main-title {
+    @apply text-secondary text-lg font-bold lg:text-2xl;
+}
+
+/* Estilos imagenes home */
 .main-img{
-    @apply w-10/12 h-96 bg-cover bg-center rounded-xl;
+    @apply w-10/12 h-96 bg-cover bg-center rounded-xl my-1 lg:w-full;
 }
 
 .main-img__title{
@@ -24,8 +41,9 @@
     @apply text-sm font-semibold pl-5 text-secondary mr-24;
 }
 
+/* Estilos formularios */
 .div__form {
-    @apply w-full h-auto;
+    @apply w-full h-auto lg:w-[70%];
 }
 
 .form {
@@ -45,21 +63,23 @@
 }
 
 .form-div__input {
-    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb];
+    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb] cursor-text;
 }
 
 .form-div__error {
     @apply p-1 text-xs font-medium text-red-500;
 }
 
-.div-main {
-    @apply w-full h-auto flex flex-col justify-center items-center gap-5;
-}
-
-.main-title {
-    @apply text-secondary text-lg font-bold;
-}
-
+/* Estilos componente sticky */
 .stickyactions__div {
-    @apply flex flex-row justify-center items-center gap-5 w-full h-auto;
+    @apply flex flex-row justify-center items-center gap-5 w-[95%] h-auto lg:gap-20;
+}
+
+.stickyactions__button {
+    @apply w-full h-12 flex flex-row justify-center items-center gap-1 p-2 text-secondary text-xs font-extrabold border-1 border-solid border-secondary rounded-xl cursor-pointer hover:bg-secondary hover:text-white hover:shadow-2xl lg:text-base lg:font-bold lg:gap-3
+}
+
+
+.viewEdit__button-enviar {
+    @apply w-1/2 h-auto flex justify-center bg-secondary p-1 border-1 rounded-3xl text-white hover:bg-white hover:text-secondary hover:shadow-2xl transition-colors disabled:opacity-50 lg:w-[40%] cursor-pointer
 }

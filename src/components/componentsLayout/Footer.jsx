@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInstagram, faXTwitter } from '@fortawesome/free-brands-svg-icons'
 function Footer () {
   return (
-    <footer className='bg-secondary
+    <footer
+      id='footer' className='bg-secondary
     w-full h-auto pl-10 flex flex-col
-    justify-start items-start text-white text-sm gap-3 pb-15'
+    justify-start items-start text-white text-sm gap-3 pb-15 lg:px-15'
     >
       <h3 className='text-lg mt-5 font-bold'>Sobre Nosotros</h3>
       <p>Terminos y condiciones</p>

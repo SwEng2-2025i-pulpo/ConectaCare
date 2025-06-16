@@ -26,7 +26,7 @@ const hidratacionOptions = [
   { value: 'otro', label: 'Otro' }
 ]
 
-const FoodForms = ({ children, onSubmit, defaultValues }) => {
+const FoodForms = ({ children, onSubmit, defaultValues, setMostrarFormulario }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
   const endPointPost = 'http://127.0.0.1:8000/patients/684cadfec42b9cab643ad7a7/meals'

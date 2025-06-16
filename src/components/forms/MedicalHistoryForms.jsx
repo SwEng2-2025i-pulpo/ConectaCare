@@ -26,16 +26,16 @@ function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
       console.log(dataToSend, 'dataToSend')
       reset()
     } catch (error) {
-      console.log(dataToSend)
+      console.log(dataToSend, 'xdxdxdx')
     // Maneja el error
     }
   }
 
-  const submitHandler = onSubmit || send
+  // const submitHandler = onSubmit || send
 
   return (
     <div className='div__form'>
-      <form className='form' onSubmit={handleSubmit(submitHandler)}>
+      <form className='form' onSubmit={handleSubmit(send)}>
         <FormInput
           label='Fecha y hora'
           type='datetime-local'

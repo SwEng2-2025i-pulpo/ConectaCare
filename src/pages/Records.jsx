@@ -32,10 +32,10 @@ function Records ({
   const endPointGetMedicalHistory = `http://127.0.0.1:8000/patients/${id}/medical_history`
 
   return (
-    <div className='div-main'>
+    <div className='main'>
       <Header />
       <StickyActions />
-      <main className='min-h-100'>
+      <main className='main min-h-100'>
         <h2 className='main-title'>Registros de Cuidados</h2>
         <ViewEditRecords
           registros={registrosComida || []}

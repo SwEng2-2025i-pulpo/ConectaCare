@@ -49,10 +49,10 @@ function Form ({
   }
 
   return (
-    <div className='div-main'>
+    <div className='main'>
       <Header />
       <StickyActions />
-      <main className='div-main'>
+      <main className='main'>
         <h2 className='main-title'>Registrar Cuidados</h2>
         <ButtonForm
           titleForm='Alimentación' id={1} mostrarFormulario={mostrarFormulario}
@@ -60,7 +60,10 @@ function Form ({
           icon={<FontAwesomeIcon icon={faUtensils} />}
         >
           <FoodForms onSubmit={agregarRegistroComida}>
-            <NoticeSend mensaje='¡Alimentación registrada correctamente!' />
+            <NoticeSend
+              mensaje='¡Alimentación registrada correctamente!'
+              onClose={() => setMostrarFormulario(false)}
+            />
           </FoodForms>
         </ButtonForm>
 
@@ -70,7 +73,10 @@ function Form ({
           icon={<FontAwesomeIcon icon={faSuitcaseMedical} />}
         >
           <MedicationForms onSubmit={agregarRegistroMedicacion}>
-            <NoticeSend mensaje='¡Medicación registrada correctamente!' />
+            <NoticeSend
+              mensaje='¡Medicación registrada correctamente!'
+              onClose={() => setMostrarFormulario(false)}
+            />
           </MedicationForms>
         </ButtonForm>
 
@@ -82,7 +88,10 @@ function Form ({
           <HygieneForms
             onSubmit={agregarRegistroHigiene}
           >
-            <NoticeSend mensaje='¡Higiene registrada correctamente!' />
+            <NoticeSend
+              mensaje='¡Higiene registrada correctamente!'
+              onClose={() => setMostrarFormulario(false)}
+            />
           </HygieneForms>
         </ButtonForm>
 
@@ -92,7 +101,10 @@ function Form ({
           icon={<FontAwesomeIcon icon={faStethoscope} />}
         >
           <MonitoringForms onSubmit={agregarRegistroMonitoreo}>
-            <NoticeSend mensaje='¡Monitoreo registrado correctamente!' />
+            <NoticeSend
+              mensaje='¡Monitoreo registrado correctamente!'
+              onClose={() => setMostrarFormulario(false)}
+            />
           </MonitoringForms>
         </ButtonForm>
 
@@ -102,7 +114,10 @@ function Form ({
           icon={<FontAwesomeIcon icon={faNotesMedical} />}
         >
           <MedicalHistoryForms onSubmit={agregarRegistroHistoriaMedica}>
-            <NoticeSend mensaje='¡Historia medica registrada correctamente!' />
+            <NoticeSend
+              mensaje='¡Historia medica registrada correctamente!'
+              onClose={() => setMostrarFormulario(false)}
+            />
           </MedicalHistoryForms>
         </ButtonForm>
       </main>

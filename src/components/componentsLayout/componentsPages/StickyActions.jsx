@@ -9,7 +9,7 @@ function StickyActions () {
   const id = '684cadfec42b9cab643ad7a7'
 
   return (
-    <section className='div-main sticky top-0 p-3 bg-white'>
+    <section className='main sticky top-0 p-3 bg-white'>
       <div className='stickyactions__div'>
         <ButtonLink to='/form'>
           <ButtonHome
@@ -24,7 +24,7 @@ function StickyActions () {
           />
         </ButtonLink>
       </div>
-      <div className='stickyactions__div px-2'>
+      <div className='stickyactions__div'>
         <ButtonPdf
           titleButton='Descargar PDF'
           icon={<FontAwesomeIcon icon={faFileLines} />}
