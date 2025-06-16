@@ -157,13 +157,13 @@ ConectaCare/
 ### 7.2 Pasos de Instalación
 1. Clonar el repositorio
 2. Instalar dependencias:
-   bash
+   ```bash
    npm install
-   
+   ```
 3. Iniciar el servidor de desarrollo:
-   bash
+   ```bash
    npm run dev
-   
+   ```
 
 ### 7.3 Acceso
 - La aplicación estará disponible en: http://localhost:5173
