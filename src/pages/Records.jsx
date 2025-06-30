@@ -92,7 +92,7 @@ function Records ({
           camposMostrar={['datetime',
             'blood_pressure',
             'heart_rate',
-            'observaciones']}
+            'observations']}
           editando={editando}
           setEditando={setEditando}
           tipo='Monitoreo'

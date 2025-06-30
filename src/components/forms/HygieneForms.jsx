@@ -32,7 +32,6 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
 
   const send = async (data) => {
     const dataToSend = {
-      meal_type: data.meal_type,
       type: data.type,
       condition: data.condition,
       status: data.status,

@@ -12,3 +12,25 @@ export const formatFieldValue = (campo, valor) => {
 
   return valor
 }
+
+export const formatFieldName = (campo) => {
+  const fieldNames = {
+    datetime: 'Fecha y Hora',
+    date: 'Fecha y Hora',
+    observations: 'Observaciones',
+    meal_type: 'Tipo de Comida',
+    description: 'Descripción',
+    hydration: 'Hidratación',
+    type: 'Tipo',
+    condition: 'Condición',
+    status: 'Estado de Cumplimiento',
+    assistance_level: 'Nivel de Asistencia',
+    notes: 'Notas',
+    medication_name: 'Nombre del Medicamento',
+    dose: 'Dosis',
+    route: 'Vía de Administración',
+    heart_rate: 'Frecuencia Cardíaca',
+    blood_pressure: 'Presión Arterial'
+  }
+  return fieldNames[campo]
+}
