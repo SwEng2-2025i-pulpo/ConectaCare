@@ -9,7 +9,7 @@ function StickyActions () {
   const id = '684cadfec42b9cab643ad7a7'
 
   return (
-    <section className='main sticky top-0 p-3 bg-white'>
+    <section className='main sticky top-0 p-3 bg-white z-1'>
       <div className='stickyactions__div'>
         <ButtonLink to='/form'>
           <ButtonHome

@@ -12,7 +12,8 @@ function ViewEditRecords ({
   editando,
   setEditando,
   tipo,
-  endPoint
+  endPoint,
+  filteredRegistros = null // Registros ya filtrados desde el padre
 }) {
   const {
     editIndex,
@@ -32,7 +33,18 @@ function ViewEditRecords ({
     return null
   }
 
-  const onEdit = (index) => handleEdit(index, tipo)
+  // Usar registros filtrados si están disponibles, sino usar todos
+  const registrosToShow = filteredRegistros || registros
+
+  const onEdit = (index) => {
+    // Encontrar el índice original si estamos usando registros filtrados
+    if (filteredRegistros) {
+      const originalIndex = registros.findIndex(r => r === filteredRegistros[index])
+      handleEdit(originalIndex, tipo)
+    } else {
+      handleEdit(index, tipo)
+    }
+  }
   const onUpdate = (data) => handleUpdate(data, registros)
 
   return (
@@ -40,7 +52,7 @@ function ViewEditRecords ({
       {mensaje && <NoticeSend mensaje={mensaje} onClose={() => setMensaje('')} />}
 
       <RecordList
-        registros={registros}
+        registros={registrosToShow}
         editando={editando}
         editIndex={editIndex}
         tipo={tipo}

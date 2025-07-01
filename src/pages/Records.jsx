@@ -9,6 +9,8 @@ import { MedicalHistoryForms } from '../components/forms/MedicalHistoryForms'
 import { Header } from '../components/componentsLayout/Header'
 import { StickyActions } from '../components/componentsLayout/componentsPages/StickyActions'
 import { Footer } from '../components/componentsLayout/Footer'
+import { SearchBar } from '../components/search/SearchBar'
+import { useGlobalSearch } from '../hooks/useGlobalSearch.js'
 
 function Records ({
   registrosComida,
@@ -31,12 +33,43 @@ function Records ({
   const endPointGetMonitoring = `http://127.0.0.1:8000/patients/${id}/vital_signs`
   const endPointGetMedicalHistory = `http://127.0.0.1:8000/patients/${id}/medical_history`
 
+  // Preparar todos los registros para la búsqueda
+  const allRegistros = {
+    comida: registrosComida || [],
+    medicacion: registrosMedicacion || [],
+    higiene: registrosHigiene || [],
+    monitoreo: registrosMonitoreo || [],
+    historiaMedica: registrosHistoriaMedica || []
+  }
+
+  // Hook de búsqueda global
+  const {
+    searchText,
+    setSearchText,
+    filteredRegistros,
+    clearSearch,
+    totalCount,
+    filteredCount,
+    hasResults
+  } = useGlobalSearch(allRegistros)
+
   return (
     <div className='main'>
       <Header />
       <StickyActions />
+
       <main className='main min-h-100'>
         <h2 className='main-title'>Registros de Cuidados</h2>
+
+        <SearchBar
+          searchText={searchText}
+          onSearchChange={setSearchText}
+          onClearSearch={clearSearch}
+          filteredCount={filteredCount}
+          totalCount={totalCount}
+          hasResults={hasResults}
+        />
+
         <ViewEditRecords
           registros={registrosComida || []}
           setRegistros={setRegistrosComida}
@@ -51,7 +84,9 @@ function Records ({
           setEditando={setEditando}
           tipo='comida'
           endPoint={endPointGetFood}
+          filteredRegistros={filteredRegistros.comida}
         />
+
         <ViewEditRecords
           registros={registrosMedicacion || []}
           setRegistros={setRegistrosMedicacion}
@@ -67,7 +102,9 @@ function Records ({
           setEditando={setEditando}
           tipo='medicacion'
           endPoint={endPointGetMedication}
+          filteredRegistros={filteredRegistros.medicacion}
         />
+
         <ViewEditRecords
           registros={registrosHigiene || []}
           setRegistros={setRegistrosHigiene}
@@ -83,7 +120,9 @@ function Records ({
           setEditando={setEditando}
           tipo='higiene'
           endPoint={endPointGetHygiene}
+          filteredRegistros={filteredRegistros.higiene}
         />
+
         <ViewEditRecords
           registros={registrosMonitoreo || []}
           setRegistros={setRegistrosMonitoreo}
@@ -97,7 +136,9 @@ function Records ({
           setEditando={setEditando}
           tipo='Monitoreo'
           endPoint={endPointGetMonitoring}
+          filteredRegistros={filteredRegistros.monitoreo}
         />
+
         <ViewEditRecords
           registros={registrosHistoriaMedica || []}
           setRegistros={setRegistrosHistoriaMedica}
@@ -110,6 +151,7 @@ function Records ({
           setEditando={setEditando}
           tipo='historiaMedica'
           endPoint={endPointGetMedicalHistory}
+          filteredRegistros={filteredRegistros.historiaMedica}
         />
       </main>
       <Footer />
