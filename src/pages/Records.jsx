@@ -27,7 +27,7 @@ function Records ({
   setRegistrosHistoriaMedica
 }) {
   const [editando, setEditando] = useState(null)
-  const id = '684cadfec42b9cab643ad7a7'
+  const id = '686447c2c6a9a54b1d16f22d'
 
   const endPointGetFood = `http://127.0.0.1:8000/patients/${id}/meals`
   const endPointGetMedication = `http://127.0.0.1:8000/patients/${id}/medication_logs`

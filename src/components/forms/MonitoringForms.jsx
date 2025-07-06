@@ -10,7 +10,7 @@ import { postData } from '../../utils/apiPost.js'
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/684cadfec42b9cab643ad7a7/vital_signs'
+  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/vital_signs'
 
   useEffect(() => {
     reset(defaultValues)

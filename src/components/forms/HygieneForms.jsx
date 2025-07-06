@@ -24,7 +24,7 @@ const nivelAsistenciaOptions = [
 function HygieneForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/684cadfec42b9cab643ad7a7/hygiene_logs'
+  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/hygiene_logs'
 
   useEffect(() => {
     reset(defaultValues)
