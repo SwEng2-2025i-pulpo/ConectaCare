@@ -21,7 +21,7 @@ function ButtonPdf ({ titleButton, icon, patientId }) {
 
   return (
     <button
-      className='stickyactions__button mx-2 lg:mx-5'
+      className='w-[45%] h-12 flex flex-row justify-center items-center gap-1 p-2 text-secondary text-xs font-semibold border-1 border-solid border-secondary rounded-xl cursor-pointer hover:bg-secondary hover:text-white hover:shadow-2xl lg:text-base lg:font-semibold lg:gap-3'
       onClick={handleDownload}
     >
       {icon}

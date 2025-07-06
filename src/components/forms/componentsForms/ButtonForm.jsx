@@ -22,7 +22,7 @@ function ButtonForm ({ titleForm, children, id, mostrarFormulario, setMostrarFor
       <button
         className=' flex justify-between items-center
         w-[90%] h-20 px-6 py-2
-        bg-secondary text-white text-base rounded-lg font-semibold cursor-pointer hover:bg-white hover:text-secondary hover:shadow-xl hover:border-1
+        bg-secondary text-white text-base rounded-lg font-semibold cursor-pointer hover:bg-white hover:text-secondary hover:shadow-xl hover:border-1 lg:text-sm
       '
         onClick={toggleFormulario}
       >

@@ -3,6 +3,9 @@ import { Routes, Route } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Form } from './pages/Form'
 import { Records } from './pages/Records'
+import { Login } from './pages/Login'
+import { SignUp } from './pages/SignUp'
+import { Settings } from './pages/Settings'
 
 function App () {
   const [registrosComida, setRegistrosComida] = useState([])
@@ -14,6 +17,8 @@ function App () {
   return (
     <div>
       <Routes>
+        <Route path='/login' element={<Login />} />
+        <Route path='/SignUp' element={<SignUp />} />
         <Route path='/' element={<Home />} />
         <Route
           path='/form' element={<Form
@@ -43,6 +48,7 @@ function App () {
             setRegistrosHistoriaMedica={setRegistrosHistoriaMedica}
                                      />}
         />
+        <Route path='/configuracion' element={<Settings />} />
       </Routes>
     </div>
 

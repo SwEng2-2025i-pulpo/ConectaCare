@@ -19,7 +19,56 @@
 
 }
 
+/* login y regisro */
+
+.login__div {
+    @apply h-screen w-full flex flex-col items-center justify-start lg:bg-gray-100 ;
+}
+
+.login__main {
+    @apply w-full h-auto flex flex-col items-center justify-start py-20 gap-5 lg:w-[30%] lg:my-auto lg:bg-white lg:rounded-lg;
+}
+
+.login-title {
+    @apply text-secondary text-3xl font-bold lg:text-2xl;
+}
+
+
+.login-subtitle {
+    @apply text-black text-sm font-normal lg:text-sm;
+}
+
+.login__input {
+    @apply w-[90%] h-10 rounded-lg p-2 bg-white border border-gray-400 cursor-text focus:bg-white focus:outline-primary lg:text-xs;
+}
+
+.login-div__label {
+    @apply text-base font-medium lg:text-xs pl-2 py-1;
+}
+ /* signup */
+.signup__div {
+    @apply h-screen w-full flex flex-col items-center justify-start lg:bg-gray-100 lg:flex-row lg:px-4 lg:gap-5;
+}
+
+.signup__main{
+    @apply w-full h-auto flex flex-col items-center justify-start lg:w-[40%] lg:my-auto lg:bg-white lg:rounded-lg
+    lg:h-[95%];
+}
+
+.signup__h1__div {
+    @apply w-full h-[200px] flex flex-col items-center justify-center gap-3 mb-5 lg:text-sm bg-primary text-white
+    lg:h-auto lg:rounded-t-lg;
+}
+
+.signup__form {
+    @apply w-full h-auto flex flex-col rounded-s-lg justify-center items-start pl-5 mb-7 gap-4
+}
+
 /* main */
+.login__div {
+    @apply h-screen w-full flex flex-col items-center justify-start lg:bg-gray-100 ;
+}
+
 .main {
     @apply w-full h-auto flex flex-col justify-center items-center gap-5;
 }
@@ -55,7 +104,7 @@
 }
 
 .form-div__label {
-    @apply text-base font-medium;
+    @apply text-base font-medium pl-2 lg:text-sm;
 }
 
 .form-div__required {
@@ -63,7 +112,7 @@
 }
 
 .form-div__input {
-    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb] cursor-text;
+    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb] cursor-text lg:text-sm;
 }
 
 .form-div__error {
@@ -76,7 +125,7 @@
 }
 
 .stickyactions__button {
-    @apply w-full h-12 flex flex-row justify-center items-center gap-1 p-2 text-secondary text-xs font-extrabold border-1 border-solid border-secondary rounded-xl cursor-pointer hover:bg-secondary hover:text-white hover:shadow-2xl lg:text-base lg:font-bold lg:gap-3
+    @apply w-full h-12 flex flex-row justify-center items-center gap-1 p-2 text-secondary text-xs font-semibold border-1 border-solid border-secondary rounded-xl cursor-pointer hover:bg-secondary hover:text-white hover:shadow-2xl lg:text-base lg:font-semibold lg:gap-3
 }
 
 

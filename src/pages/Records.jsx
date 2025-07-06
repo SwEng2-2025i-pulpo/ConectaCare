@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { ViewEditRecords } from '../components/componentsRecord/ViewEditRecords'
 import { FoodForms } from '../components/forms/FoodForms'
 import { MedicationForms } from '../components/forms/MedicationForms'
@@ -10,7 +10,9 @@ import { Header } from '../components/componentsLayout/Header'
 import { StickyActions } from '../components/componentsLayout/componentsPages/StickyActions'
 import { Footer } from '../components/componentsLayout/Footer'
 import { SearchBar } from '../components/search/SearchBar'
+import { TypeFilter } from '../components/search/TypeFilter'
 import { useGlobalSearch } from '../hooks/useGlobalSearch.js'
+import { useTypeFilter } from '../hooks/useTypeFilter.js'
 
 function Records ({
   registrosComida,
@@ -33,7 +35,7 @@ function Records ({
   const endPointGetMonitoring = `http://127.0.0.1:8000/patients/${id}/vital_signs`
   const endPointGetMedicalHistory = `http://127.0.0.1:8000/patients/${id}/medical_history`
 
-  // Preparar todos los registros para la búsqueda
+  // Preparar todos los registros
   const allRegistros = {
     comida: registrosComida || [],
     medicacion: registrosMedicacion || [],
@@ -42,16 +44,43 @@ function Records ({
     historiaMedica: registrosHistoriaMedica || []
   }
 
-  // Hook de búsqueda global
+  // Hook de búsqueda por texto
   const {
     searchText,
     setSearchText,
-    filteredRegistros,
+    filteredBySearch,
     clearSearch,
-    totalCount,
-    filteredCount,
-    hasResults
+    hasSearchText
   } = useGlobalSearch(allRegistros)
+
+  // Hook de filtrado por tipo
+  const {
+    selectedTypes,
+    filteredByType,
+    toggleType,
+    selectAllTypes,
+    hasTypeFilters
+  } = useTypeFilter(filteredBySearch)
+
+  // Combinar ambos filtros
+  const finalFilteredRegistros = useMemo(() => {
+    return filteredByType
+  }, [filteredByType])
+
+  // Calcular totales para mostrar en SearchBar
+  const totalCount = Object.values(allRegistros).reduce((total, registros) => {
+    return total + (registros?.length || 0)
+  }, 0)
+
+  const filteredCount = Object.values(finalFilteredRegistros).reduce((total, registros) => {
+    return total + (registros?.length || 0)
+  }, 0)
+
+  // Función para limpiar todos los filtros
+  const clearAllFilters = () => {
+    clearSearch()
+    selectAllTypes()
+  }
 
   return (
     <div className='main'>
@@ -67,7 +96,14 @@ function Records ({
           onClearSearch={clearSearch}
           filteredCount={filteredCount}
           totalCount={totalCount}
-          hasResults={hasResults}
+          hasResults={hasSearchText || hasTypeFilters}
+        />
+
+        <TypeFilter
+          selectedTypes={selectedTypes}
+          onToggleType={toggleType}
+          onSelectAll={selectAllTypes}
+          onClearAll={clearAllFilters}
         />
 
         <ViewEditRecords
@@ -84,7 +120,7 @@ function Records ({
           setEditando={setEditando}
           tipo='comida'
           endPoint={endPointGetFood}
-          filteredRegistros={filteredRegistros.comida}
+          filteredRegistros={finalFilteredRegistros.comida}
         />
 
         <ViewEditRecords
@@ -102,7 +138,7 @@ function Records ({
           setEditando={setEditando}
           tipo='medicacion'
           endPoint={endPointGetMedication}
-          filteredRegistros={filteredRegistros.medicacion}
+          filteredRegistros={finalFilteredRegistros.medicacion}
         />
 
         <ViewEditRecords
@@ -120,7 +156,7 @@ function Records ({
           setEditando={setEditando}
           tipo='higiene'
           endPoint={endPointGetHygiene}
-          filteredRegistros={filteredRegistros.higiene}
+          filteredRegistros={finalFilteredRegistros.higiene}
         />
 
         <ViewEditRecords
@@ -136,7 +172,7 @@ function Records ({
           setEditando={setEditando}
           tipo='Monitoreo'
           endPoint={endPointGetMonitoring}
-          filteredRegistros={filteredRegistros.monitoreo}
+          filteredRegistros={finalFilteredRegistros.monitoreo}
         />
 
         <ViewEditRecords
@@ -151,7 +187,7 @@ function Records ({
           setEditando={setEditando}
           tipo='historiaMedica'
           endPoint={endPointGetMedicalHistory}
-          filteredRegistros={filteredRegistros.historiaMedica}
+          filteredRegistros={finalFilteredRegistros.historiaMedica}
         />
       </main>
       <Footer />

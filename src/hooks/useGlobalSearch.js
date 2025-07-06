@@ -37,8 +37,8 @@ function useGlobalSearch (allRegistros = {}) {
     })
   }
 
-  // Filtrar todos los registros
-  const filteredRegistros = useMemo(() => {
+  // Filtrar solo por texto de búsqueda
+  const filteredByText = useMemo(() => {
     if (!searchText.trim()) {
       return allRegistros
     }
@@ -53,15 +53,6 @@ function useGlobalSearch (allRegistros = {}) {
     return filtered
   }, [allRegistros, searchText])
 
-  // Calcular totales
-  const totalCount = Object.values(allRegistros).reduce((total, registros) => {
-    return total + (registros?.length || 0)
-  }, 0)
-
-  const filteredCount = Object.values(filteredRegistros).reduce((total, registros) => {
-    return total + (registros?.length || 0)
-  }, 0)
-
   const clearSearch = () => {
     setSearchText('')
   }
@@ -69,11 +60,9 @@ function useGlobalSearch (allRegistros = {}) {
   return {
     searchText,
     setSearchText,
-    filteredRegistros,
+    filteredByText,
     clearSearch,
-    totalCount,
-    filteredCount,
-    hasResults: searchText.trim().length > 0
+    hasSearchText: searchText.trim().length > 0
   }
 }
 
