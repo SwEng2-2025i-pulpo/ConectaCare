@@ -9,7 +9,6 @@ function FormInput ({ label, id, register, required, error, ...props }) {
       </label>
       <input
         className='form-div__input
-        focus:bg-white focus:outline-primary
         '
         id={id} {...register(id, required)}
         {...props}

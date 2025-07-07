@@ -100,7 +100,7 @@
 }
 
 .form-div {
-    @apply w-full h-auto flex flex-col;
+    @apply w-full h-auto flex flex-col gap-1 lg:pl-5;
 }
 
 .form-div__label {
@@ -112,7 +112,7 @@
 }
 
 .form-div__input {
-    @apply w-[90%] h-10 rounded-2xl p-2 bg-[#f1f1fb] cursor-text lg:text-sm;
+    @apply w-[90%] h-10 rounded-md p-2 bg-[#f8fafc] cursor-text lg:text-sm border-1 border-[#e2e8f0] focus:bg-white focus:outline-primary;
 }
 
 .form-div__error {
@@ -131,4 +131,8 @@
 
 .viewEdit__button-enviar {
     @apply w-1/2 h-auto flex justify-center bg-secondary p-1 border-1 rounded-3xl text-white hover:bg-white hover:text-secondary hover:shadow-2xl transition-colors disabled:opacity-50 lg:w-[40%] cursor-pointer
+}
+
+.Settings__form__div {
+    @apply w-full h-auto flex flex-col lg:pl-5 gap-5 rounded-lg lg:flex-row
 }

@@ -7,7 +7,7 @@ function MainHome () {
     <main className='main'>
       <StickyActions />
       <section className='main'>
-        <h2 className='main-title'>Bienvenio a ConectaCare</h2>
+        <h2 className='main-title'>Bienvenido a ConectaCare</h2>
         {/* No se pudo usar main porque no deja usar grid porque se sobreescribe */}
         <div className='w-full h-auto flex flex-col justify-center items-center gap-5 lg:w-[90%] lg:grid lg:grid-cols-2 lg:grid-rows-2'>
           <InfoCard
