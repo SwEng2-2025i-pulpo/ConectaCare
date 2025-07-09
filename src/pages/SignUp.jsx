@@ -4,11 +4,14 @@ import { LoginInput } from '../components/login/LoginInput'
 import { ButtonSubmit } from '../components/forms/componentsForms/ButtonSubmit'
 
 function SignUp () {
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+
+  // Observar el valor del campo password
+  const password = watch('password')
 
   const onSubmit = (data) => {
-    console.log('Datos del login:', data)
-    // Aquí iría tu lógica de autenticación
+    console.log('Datos del registro:', data)
+    // Aquí iría tu lógica de registro
   }
 
   return (
@@ -60,23 +63,28 @@ function SignUp () {
           <LoginInput
             label='Confirmar Contraseña'
             type='password'
-            id='password'
-            placeholder='Contraseña'
+            id='confirmPassword'
+            placeholder='Confirmar Contraseña'
             register={register}
-            required={{ required: 'La confirmación de la contraseña es obligatoria' }}
-            error={errors.password}
+            required={{
+              required: 'La confirmación de la contraseña es obligatoria',
+              validate: value => value === password || 'Las contraseñas no coinciden'
+            }}
+            error={errors.confirmPassword}
             showPasswordToggle
           />
-          <ButtonSubmit className='lg:text-7xl' text='Crear Cuenta' />
+          <div className='w-full h-auto flex justify-start items-center lg:w-[70%] '>
+            <ButtonSubmit className='' text='Crear Cuenta' />
+          </div>
         </form>
       </main>
       <div className='hidden lg:flex lg:flex-col
        lg:justify-start lg:items-end
-       lg:w-[60%] lg:h-[95%]
-       lg:rounded-lg lg:bg-gray-100 pr-7'
+       lg:w-[60%] lg:h-full
+       lg:rounded-lg lg:bg-gray-100 lg:p-9 lg:gap-8'
       >
-        <h1 className='text-secondary font-bold text-4xl pb-12'>ConcectaCare</h1>
-        <img className='w-[95%] object-contain rounded-4xl' src='/images/nurse-signup.jpg' alt='' />
+        <h1 className='text-secondary font-bold text-4xl'>ConcectaCare</h1>
+        <img className=' object-contain rounded-4xl' src='/images/nurse-signup.jpg' alt='' />
       </div>
     </div>
   )

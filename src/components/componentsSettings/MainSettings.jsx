@@ -4,21 +4,32 @@ import { ButtonSubmit } from '../forms/componentsForms/ButtonSubmit'
 function MainSettings () {
   const { register, formState: { errors } } = useForm()
   return (
-    <main className='w-full h-auto flex flex-col items-start justify-center my-5 gap-4 lg:pl-18'>
-      <div className='w-[100%] h-auto flex flex-col lg:pl-5 p-5 rounded-lg'>
-        <h1 className='w-[100%] text-xl font-semibold border-b border-slate-200'>Información del perfil</h1>
+    <main className='mainSettings'>
+      <div className='mainSettings__title'>
+        <h1 className='mainSettings__h1'>Información del perfil</h1>
       </div>
-      <div className='w-full h-auto flex flex-col justify-center items-center gap-5 lg:pl-5 pl-5 rounded-lg lg:w-[95%]'>
+      <div className='mainSettings__div'>
         <div className='Settings__form__div'>
           <FormInput
-            label='Nombre completo'
+            label='Nombre'
             type='text'
-            id='full_name'
-            placeholder='Nombre completo'
+            id='name'
+            placeholder='Nombre'
             register={register}
             required={{ required: 'El nombre es obligatorio' }}
             error={errors.full_name}
           />
+          <FormInput
+            label='Apellido'
+            type='text'
+            id='last_name'
+            placeholder='Apellido'
+            register={register}
+            required={{ required: 'Ingresar el apellido es obligatorio' }}
+            error={errors.glucose}
+          />
+        </div>
+        <div className='Settings__form__div'>
           <FormInput
             label='Fecha de nacimiento'
             type='date'
@@ -28,8 +39,6 @@ function MainSettings () {
             required={{ required: 'la fecha de nacimiento es obligatoria' }}
             error={errors.birth_date}
           />
-        </div>
-        <div className='Settings__form__div'>
           <FormInput
             label='Edad'
             type='number'
@@ -39,63 +48,16 @@ function MainSettings () {
             required={{ required: 'La edad es obligatoria' }}
             error={errors.age}
           />
+        </div>
+        <div className='Settings__form__div'>
           <FormInput
-            label='Colesterol'
+            label='Documento de identidad'
             type='number'
-            id='cholesterol'
-            placeholder='Colesterol'
+            id='document'
+            placeholder='Documento'
             register={register}
-            required={{ required: 'Ingresar el colesterol es obligatorio' }}
+            required={{ required: 'Ingresar el documento es obligatorio' }}
             error={errors.cholesterol}
-          />
-        </div>
-        <div className='Settings__form__div'>
-          <FormInput
-            label='Glucosa'
-            type='number'
-            id='glucose'
-            placeholder='Glucosa'
-            register={register}
-            required={{ required: 'Ingresar la glucosa es obligatorio' }}
-            error={errors.glucose}
-          />
-          <FormInput
-            label='Condiciones'
-            type='text'
-            id='conditions'
-            placeholder='Condiciones'
-            register={register}
-            required={{ required: 'Ingresar las condiciones del paciente es obligatorio' }}
-            error={errors.conditions}
-          />
-        </div>
-        <div className='Settings__form__div'>
-          <FormInput
-            label='Medicamentos'
-            type='text'
-            id='medications'
-            placeholder='Medicamentos'
-            register={register}
-            required={{ required: 'Ingresar los medicamentos del paciente es obligatorio' }}
-            error={errors.medkcations}
-          />
-          <FormInput
-            label='Peso en Kg'
-            type='number'
-            id='weight_by_month'
-            placeholder='Peso en Kg'
-            register={register}
-            required={{ required: 'Ingresar el peso del paciente es obligatorio' }}
-            error={errors.weight_by_month}
-          />
-        </div>
-        <div className='Settings__form__div'>
-          <FormInput
-            label='Historial médico'
-            type='text'
-            id='medical_history'
-            placeholder='Historial médico'
-            register={register}
           />
         </div>
       </div>

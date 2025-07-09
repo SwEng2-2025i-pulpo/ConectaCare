@@ -37,8 +37,9 @@ function Login () {
             error={errors.password}
             showPasswordToggle
           />
-          <ButtonSubmit className='lg:text-7xl' text='Ingresar' />
+          {/* <ButtonSubmit className='lg:text-7xl' text='Ingresar' /> */}
         </form>
+        <ButtonSubmit className='lg:text-7xl' text='Ingresar' />
         <div className='flex flex-col items-center gap-4 mt-5 lg:text-sm'>
           <h2>¿Todavía no tienes cuenta?</h2>
           <Link to='/SignUp' className='hover:text-primary hover:font-bold cursor-pointer'>Crear Cuenta</Link>

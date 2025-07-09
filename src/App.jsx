@@ -6,6 +6,7 @@ import { Records } from './pages/Records'
 import { Login } from './pages/Login'
 import { SignUp } from './pages/SignUp'
 import { Settings } from './pages/Settings'
+import { Patient } from './pages/Patient'
 
 function App () {
   const [registrosComida, setRegistrosComida] = useState([])
@@ -49,6 +50,7 @@ function App () {
                                      />}
         />
         <Route path='/configuracion' element={<Settings />} />
+        <Route path='/paciente' element={<Patient />} />
       </Routes>
     </div>
 
