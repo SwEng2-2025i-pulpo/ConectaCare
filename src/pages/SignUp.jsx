@@ -56,7 +56,23 @@ function SignUp () {
             id='password'
             placeholder='Contraseña'
             register={register}
-            required={{ required: 'La contraseña es obligatoria' }}
+            required={{
+              required: 'La contraseña es obligatoria',
+              minLength: {
+                value: 8,
+                message: 'La contraseña debe tener al menos 8 caracteres'
+              },
+              validate: {
+                hasUpperCase: value =>
+                  /[A-Z]/.test(value) || 'La contraseña debe contener al menos una letra mayúscula',
+                hasLowerCase: value =>
+                  /[a-z]/.test(value) || 'La contraseña debe contener al menos una letra minúscula',
+                hasNumber: value =>
+                  /\d/.test(value) || 'La contraseña debe contener al menos un número',
+                hasSpecialChar: value =>
+                  /[!@#$%^&*(),.?":{}|<>]/.test(value) || 'La contraseña debe contener al menos un carácter especial (!@#$%^&*(),.?":{}|<>)'
+              }
+            }}
             error={errors.password}
             showPasswordToggle
           />
