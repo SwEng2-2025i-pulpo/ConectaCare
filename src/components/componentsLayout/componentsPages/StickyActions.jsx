@@ -32,7 +32,7 @@ function StickyActions () {
         />
         <ButtonLink to='/configuracion'>
           <ButtonHome
-            titleButton='Configuración'
+            titleButton='Pacientes'
             icon={<FontAwesomeIcon icon={faGear} />}
           />
         </ButtonLink>

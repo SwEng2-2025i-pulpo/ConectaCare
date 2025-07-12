@@ -1,20 +1,40 @@
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FormInput } from '../forms/componentsForms/FormInput'
 import { ButtonSubmit } from '../forms/componentsForms/ButtonSubmit'
 import { createPatient } from '../../utils/apiCreatePatient'
+import { updatePatient } from '../../utils/apiPatients'
 
-function MainSettings () {
+function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+  const [isEditing, setIsEditing] = useState(false)
+  const [isRedirecting, setIsRedirecting] = useState(false)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (patientToEdit) {
+      setIsEditing(true)
+      reset({
+        name: patientToEdit.name || '',
+        last_name: patientToEdit.last_name || '',
+        birth_date: patientToEdit.birth_date || '',
+        age: patientToEdit.age || '',
+        document: patientToEdit.document || ''
+      })
+    } else {
+      setIsEditing(false)
+      reset()
+    }
+  }, [patientToEdit, reset])
 
   const onSubmit = async (data) => {
     setLoading(true)
     setMessage('')
 
     try {
-      // Preparar datos para enviar al backend
       const patientData = {
         name: data.name,
         last_name: data.last_name,
@@ -26,16 +46,24 @@ function MainSettings () {
         glucose: 0
       }
 
-      console.log('Enviando datos del paciente:', patientData)
-
-      const result = await createPatient(patientData)
-      console.log('Paciente creado exitosamente:', result)
-
-      setMessage('¡Paciente creado exitosamente!')
-      reset() // Limpiar el formulario
+      if (isEditing && patientToEdit) {
+        const result = await updatePatient(patientToEdit.id, patientData)
+        setMessage('¡Paciente actualizado exitosamente! Redirigiendo...')
+        setIsRedirecting(true)
+        setTimeout(() => {
+          if (onUpdateSuccess) {
+            onUpdateSuccess(result)
+          }
+          navigate('/paciente')
+        }, 1500)
+      } else {
+        const result = await createPatient(patientData)
+        console.log('Paciente creado exitosamente:', result)
+        setMessage('¡Paciente creado exitosamente!')
+        reset()
+      }
     } catch (error) {
-      console.error('Error al crear paciente:', error)
-      setMessage('Error al crear el paciente: ' + error.message)
+      setMessage(`Error al ${isEditing ? 'actualizar' : 'crear'} el paciente: ` + error.message)
     } finally {
       setLoading(false)
     }
@@ -43,7 +71,9 @@ function MainSettings () {
   return (
     <main className='mainSettings'>
       <div className='mainSettings__title'>
-        <h1 className='mainSettings__h1'>Crear Nuevo Paciente</h1>
+        <h1 className='mainSettings__h1'>
+          {isEditing ? 'Editar Paciente' : 'Crear Nuevo Paciente'}
+        </h1>
       </div>
 
       {message && (
@@ -106,9 +136,15 @@ function MainSettings () {
         </div>
         <div className='w-[95%] h-auto flex justify-center items-start mb-5 lg:mx-auto lg:w-[55%]'>
           <ButtonSubmit
-            text={loading ? 'Creando...' : 'Crear Paciente'}
+            text={
+              loading
+                ? (isEditing ? 'Actualizando...' : 'Creando...')
+                : isRedirecting
+                  ? 'Redirigiendo...'
+                  : (isEditing ? 'Actualizar Paciente' : 'Crear Paciente')
+            }
             type='submit'
-            disabled={loading}
+            disabled={loading || isRedirecting}
           />
         </div>
       </form>

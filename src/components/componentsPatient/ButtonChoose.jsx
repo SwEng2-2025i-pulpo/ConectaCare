@@ -1,4 +1,4 @@
-function ButtonChoose ({ type, text }) {
+function ButtonChoose ({ type, text, onClick }) {
   return (
     <div className='w-[90%] h-auto flex justify-center items-center'>
       <button
@@ -6,6 +6,7 @@ function ButtonChoose ({ type, text }) {
       font-medium rounded-md bg-white mt-3
        text-secondary border-1 border-gray-300 hover:bg-gray-100 hover:shadow-2xl cursor-pointer lg:text-sm'
         type={type}
+        onClick={onClick}
       >{text}
       </button>
     </div>

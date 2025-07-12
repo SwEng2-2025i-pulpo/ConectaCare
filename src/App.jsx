@@ -7,6 +7,7 @@ import { Login } from './pages/Login'
 import { SignUp } from './pages/SignUp'
 import { Settings } from './pages/Settings'
 import { Patient } from './pages/Patient'
+import { PatientProvider } from './context/PatientContext'
 
 function App () {
   const [registrosComida, setRegistrosComida] = useState([])
@@ -16,44 +17,45 @@ function App () {
   const [registrosHistoriaMedica, setRegistrosHistoriaMedica] = useState([])
 
   return (
-    <div>
-      <Routes>
-        <Route path='/login' element={<Login />} />
-        <Route path='/SignUp' element={<SignUp />} />
-        <Route path='/' element={<Home />} />
-        <Route
-          path='/form' element={<Form
-            registrosComida={registrosComida}
-            setRegistrosComida={setRegistrosComida}
-            registrosMedicacion={registrosMedicacion}
-            setRegistrosMedicacion={setRegistrosMedicacion}
-            registrosHigiene={registrosHigiene}
-            setRegistrosHigiene={setRegistrosHigiene}
-            registrosMonitoreo={registrosMonitoreo}
-            setRegistrosMonitoreo={setRegistrosMonitoreo}
-            registrosHistoriaMedica={registrosHistoriaMedica}
-            setRegistrosHistoriaMedica={setRegistrosHistoriaMedica}
-                                />}
-        />
-        <Route
-          path='/registros' element={<Records
-            registrosComida={registrosComida}
-            setRegistrosComida={setRegistrosComida}
-            registrosMedicacion={registrosMedicacion}
-            setRegistrosMedicacion={setRegistrosMedicacion}
-            registrosHigiene={registrosHigiene}
-            setRegistrosHigiene={setRegistrosHigiene}
-            registrosMonitoreo={registrosMonitoreo}
-            setRegistrosMonitoreo={setRegistrosMonitoreo}
-            registrosHistoriaMedica={registrosHistoriaMedica}
-            setRegistrosHistoriaMedica={setRegistrosHistoriaMedica}
-                                     />}
-        />
-        <Route path='/configuracion' element={<Settings />} />
-        <Route path='/paciente' element={<Patient />} />
-      </Routes>
-    </div>
-
+    <PatientProvider>
+      <div>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/SignUp' element={<SignUp />} />
+          <Route path='/' element={<Home />} />
+          <Route
+            path='/form' element={<Form
+              registrosComida={registrosComida}
+              setRegistrosComida={setRegistrosComida}
+              registrosMedicacion={registrosMedicacion}
+              setRegistrosMedicacion={setRegistrosMedicacion}
+              registrosHigiene={registrosHigiene}
+              setRegistrosHigiene={setRegistrosHigiene}
+              registrosMonitoreo={registrosMonitoreo}
+              setRegistrosMonitoreo={setRegistrosMonitoreo}
+              registrosHistoriaMedica={registrosHistoriaMedica}
+              setRegistrosHistoriaMedica={setRegistrosHistoriaMedica}
+                                  />}
+          />
+          <Route
+            path='/registros' element={<Records
+              registrosComida={registrosComida}
+              setRegistrosComida={setRegistrosComida}
+              registrosMedicacion={registrosMedicacion}
+              setRegistrosMedicacion={setRegistrosMedicacion}
+              registrosHigiene={registrosHigiene}
+              setRegistrosHigiene={setRegistrosHigiene}
+              registrosMonitoreo={registrosMonitoreo}
+              setRegistrosMonitoreo={setRegistrosMonitoreo}
+              registrosHistoriaMedica={registrosHistoriaMedica}
+              setRegistrosHistoriaMedica={setRegistrosHistoriaMedica}
+                                       />}
+          />
+          <Route path='/configuracion' element={<Settings />} />
+          <Route path='/paciente' element={<Patient />} />
+        </Routes>
+      </div>
+    </PatientProvider>
   )
 }
 
