@@ -11,9 +11,9 @@ function useTypeFilter (registros = {}) {
 
   // Filtrar registros por tipos seleccionados
   const filteredByType = useMemo(() => {
-    // Si todos los tipos están seleccionados, devolver todos
-    if (Object.values(selectedTypes).every(type => type)) {
-      return registros
+    // Asegurarse de que registros sea un objeto válido
+    if (!registros || typeof registros !== 'object') {
+      return {}
     }
 
     const filtered = {}

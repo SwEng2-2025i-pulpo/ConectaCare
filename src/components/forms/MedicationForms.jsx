@@ -4,6 +4,7 @@ import { FormInput } from './/componentsForms/FormInput'
 import { FormSelect } from './/componentsForms/FormSelect'
 import { FormTextarea } from './/componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
+import { id } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
@@ -27,7 +28,7 @@ const estadoCumplimientoOptions = [
 export default function MedicationForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/medication_logs'
+  const endPointPost = `/api/patients/${id}/medication_logs`
 
   useEffect(() => {
     reset(defaultValues)

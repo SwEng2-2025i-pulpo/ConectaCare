@@ -4,6 +4,7 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
+import { id } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
@@ -29,7 +30,7 @@ const hidratacionOptions = [
 const FoodForms = ({ children, defaultValues }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/meals'
+  const endPointPost = `/api/patients/${id}/meals`
 
   useEffect(() => {
     reset(defaultValues)
@@ -43,11 +44,17 @@ const FoodForms = ({ children, defaultValues }) => {
       observations: data.observations,
       datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
+
+    console.log('Enviando datos:', dataToSend)
+    console.log('Endpoint:', endPointPost)
+
     try {
       await postData(endPointPost, dataToSend)
       reset()
+      console.log('Datos enviados exitosamente')
     } catch (error) {
-    // Maneja el error
+      console.error('Error al enviar datos:', error)
+      console.error('Error message:', error.message)
     }
   }
 

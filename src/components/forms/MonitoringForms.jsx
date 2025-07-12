@@ -4,13 +4,12 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 import { postData } from '../../utils/apiPost.js'
-
-// ...resto del código...
+import { id } from '../../utils/id.js'
 
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/vital_signs'
+  const endPointPost = `/api/patients/${id}/vital_signs`
 
   useEffect(() => {
     reset(defaultValues)
@@ -19,18 +18,26 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const send = async (data) => {
     const dataToSend = {
       datetime: data.datetime ? new Date(data.datetime).toISOString() : '',
-      heart_rate: Number(data.heart_rate),
+      weight_by_month: [
+        {
+          month: data.month,
+          value: Number(data.value)
+        }
+      ],
       observations: data.observations,
       blood_pressure: {
         systolic: Number(data.systolic),
         diastolic: Number(data.diastolic)
-      }
+      },
+      heart_rate: Number(data.heart_rate)
     }
     try {
       await postData(endPointPost, dataToSend)
+      console.log('Datos enviados correctamente:', dataToSend)
       reset()
     } catch (error) {
     // Maneja el error
+      console.log('Datos enviados correctamente:', dataToSend)
     }
   }
 
@@ -44,7 +51,7 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
           placeholder='fecha y hora'
           register={register}
         />
-        <div className='flex gap-3 w-[95%]'>
+        <div className='monitoreo__div'>
           <FormInput
             label='Presión sistólica (mmHg)'
             id='systolic'
@@ -57,6 +64,22 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
             id='diastolic'
             type='number'
             placeholder='Diastólica'
+            register={register}
+          />
+        </div>
+        <div className='monitoreo__div'>
+          <FormInput
+            label='Peso del Mes'
+            id='value'
+            type='number'
+            placeholder='Peso'
+            register={register}
+          />
+          <FormInput
+            label='Mes'
+            id='month'
+            type='month'
+            placeholder='Mes'
             register={register}
           />
         </div>

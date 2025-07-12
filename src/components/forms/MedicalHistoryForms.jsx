@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
+import { id } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
 function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = 'http://127.0.0.1:8000/patients/686447c2c6a9a54b1d16f22d/medical_history'
+  const endPointPost = `/api/patients/${id}/medical_history`
 
   useEffect(() => {
     reset(defaultValues)

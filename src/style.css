@@ -155,3 +155,8 @@
 .mainSettings__div {
     @apply w-full h-auto flex flex-col justify-center items-start gap-5 lg:pl-5 pl-5 rounded-lg lg:w-[95%];
 }
+
+/*form monitoring div*/
+.monitoreo__div {
+    @apply flex gap-3 w-[95%];
+} 

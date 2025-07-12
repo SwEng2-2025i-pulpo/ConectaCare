@@ -1,4 +1,5 @@
-import React from 'react'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faSoap } from '@fortawesome/free-solid-svg-icons'
 
 function TypeFilter ({ selectedTypes, onToggleType, onSelectAll, onClearAll }) {
   const typeConfig = {
@@ -8,13 +9,14 @@ function TypeFilter ({ selectedTypes, onToggleType, onSelectAll, onClearAll }) {
       color: 'text-green-600'
     },
     medicacion: {
-      label: 'Medicamentos',
+      label: 'Fármaco',
       icon: '💊',
       color: 'text-blue-600'
     },
     higiene: {
       label: 'Higiene',
       icon: '🧼',
+      // icon: <FontAwesomeIcon icon={faSoap} />,
       color: 'text-purple-600'
     },
     monitoreo: {
@@ -81,8 +83,8 @@ function TypeFilter ({ selectedTypes, onToggleType, onSelectAll, onClearAll }) {
                   onChange={() => onToggleType(tipo)}
                   className='w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500'
                 />
-                <div className='flex items-center gap-2'>
-                  <span className='text-lg'>{config.icon}</span>
+                <div className='flex items-center gap-1'>
+                  <span className='hidden text-lg lg:inline '>{config.icon}</span>
                   <span className={`font-medium ${config.color}`}>
                     {config.label}
                   </span>

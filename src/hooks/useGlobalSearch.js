@@ -60,7 +60,7 @@ function useGlobalSearch (allRegistros = {}) {
   return {
     searchText,
     setSearchText,
-    filteredByText,
+    filteredBySearch: filteredByText,
     clearSearch,
     hasSearchText: searchText.trim().length > 0
   }

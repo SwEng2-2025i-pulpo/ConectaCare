@@ -4,6 +4,16 @@ export async function postData (url, data) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
   })
-  if (!response.ok) throw new Error('Error en la petición')
+
+  if (!response.ok) {
+    const errorText = await response.text()
+    console.error('Error response:', {
+      status: response.status,
+      statusText: response.statusText,
+      body: errorText
+    })
+    throw new Error(`Error ${response.status}: ${errorText}`)
+  }
+
   return response.json()
 }

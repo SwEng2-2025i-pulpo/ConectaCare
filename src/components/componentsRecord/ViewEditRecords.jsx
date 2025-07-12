@@ -34,7 +34,12 @@ function ViewEditRecords ({
   }
 
   // Usar registros filtrados si están disponibles, sino usar todos
-  const registrosToShow = filteredRegistros || registros
+  const registrosToShow = filteredRegistros !== null ? filteredRegistros : registros
+
+  // Si los registros filtrados están vacíos, no renderizar nada
+  if (filteredRegistros !== null && filteredRegistros.length === 0) {
+    return null
+  }
 
   const onEdit = (index) => {
     // Encontrar el índice original si estamos usando registros filtrados

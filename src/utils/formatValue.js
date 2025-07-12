@@ -10,6 +10,15 @@ export const formatFieldValue = (campo, valor) => {
     return `Sistólica: ${valor?.systolic ?? '-'} / Diastólica: ${valor?.diastolic ?? '-'}`
   }
 
+  if (campo === 'weight_by_month') {
+    if (Array.isArray(valor) && valor.length > 0) {
+      return valor.map(item =>
+        `${item.month ? new Date(item.month + '-01').toLocaleDateString('es-CO', { month: 'long', year: 'numeric' }) : 'Mes no especificado'}: ${item.value ?? '-'} kg`
+      ).join(', ')
+    }
+    return 'Sin datos de peso'
+  }
+
   return valor
 }
 
@@ -30,7 +39,8 @@ export const formatFieldName = (campo) => {
     dose: 'Dosis',
     route: 'Vía de Administración',
     heart_rate: 'Frecuencia Cardíaca',
-    blood_pressure: 'Presión Arterial'
+    blood_pressure: 'Presión Arterial',
+    weight_by_month: 'Peso por Mes'
   }
   return fieldNames[campo]
 }

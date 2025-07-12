@@ -13,6 +13,7 @@ import { SearchBar } from '../components/search/SearchBar'
 import { TypeFilter } from '../components/search/TypeFilter'
 import { useGlobalSearch } from '../hooks/useGlobalSearch.js'
 import { useTypeFilter } from '../hooks/useTypeFilter.js'
+import { id } from '../utils/id.js'
 
 function Records ({
   registrosComida,
@@ -27,13 +28,12 @@ function Records ({
   setRegistrosHistoriaMedica
 }) {
   const [editando, setEditando] = useState(null)
-  const id = '686447c2c6a9a54b1d16f22d'
 
-  const endPointGetFood = `http://127.0.0.1:8000/patients/${id}/meals`
-  const endPointGetMedication = `http://127.0.0.1:8000/patients/${id}/medication_logs`
-  const endPointGetHygiene = `http://127.0.0.1:8000/patients/${id}/hygiene_logs`
-  const endPointGetMonitoring = `http://127.0.0.1:8000/patients/${id}/vital_signs`
-  const endPointGetMedicalHistory = `http://127.0.0.1:8000/patients/${id}/medical_history`
+  const endPointGetFood = `/api/patients/${id}/meals`
+  const endPointGetMedication = `/api/patients/${id}/medication_logs`
+  const endPointGetHygiene = `/api/patients/${id}/hygiene_logs`
+  const endPointGetMonitoring = `/api/patients/${id}/vital_signs`
+  const endPointGetMedicalHistory = `/api/patients/${id}/medical_history`
 
   // Preparar todos los registros
   const allRegistros = {
@@ -59,6 +59,7 @@ function Records ({
     filteredByType,
     toggleType,
     selectAllTypes,
+    clearAllTypes,
     hasTypeFilters
   } = useTypeFilter(filteredBySearch)
 
@@ -72,15 +73,9 @@ function Records ({
     return total + (registros?.length || 0)
   }, 0)
 
-  const filteredCount = Object.values(finalFilteredRegistros).reduce((total, registros) => {
+  const filteredCount = Object.values(finalFilteredRegistros || {}).reduce((total, registros) => {
     return total + (registros?.length || 0)
   }, 0)
-
-  // Función para limpiar todos los filtros
-  const clearAllFilters = () => {
-    clearSearch()
-    selectAllTypes()
-  }
 
   return (
     <div className='main'>
@@ -103,7 +98,7 @@ function Records ({
           selectedTypes={selectedTypes}
           onToggleType={toggleType}
           onSelectAll={selectAllTypes}
-          onClearAll={clearAllFilters}
+          onClearAll={clearAllTypes}
         />
 
         <ViewEditRecords
@@ -120,7 +115,7 @@ function Records ({
           setEditando={setEditando}
           tipo='comida'
           endPoint={endPointGetFood}
-          filteredRegistros={finalFilteredRegistros.comida}
+          filteredRegistros={finalFilteredRegistros?.comida}
         />
 
         <ViewEditRecords
@@ -138,7 +133,7 @@ function Records ({
           setEditando={setEditando}
           tipo='medicacion'
           endPoint={endPointGetMedication}
-          filteredRegistros={finalFilteredRegistros.medicacion}
+          filteredRegistros={finalFilteredRegistros?.medicacion}
         />
 
         <ViewEditRecords
@@ -156,7 +151,7 @@ function Records ({
           setEditando={setEditando}
           tipo='higiene'
           endPoint={endPointGetHygiene}
-          filteredRegistros={finalFilteredRegistros.higiene}
+          filteredRegistros={finalFilteredRegistros?.higiene}
         />
 
         <ViewEditRecords
@@ -167,12 +162,13 @@ function Records ({
           camposMostrar={['datetime',
             'blood_pressure',
             'heart_rate',
+            'weight_by_month',
             'observations']}
           editando={editando}
           setEditando={setEditando}
-          tipo='Monitoreo'
+          tipo='monitoreo'
           endPoint={endPointGetMonitoring}
-          filteredRegistros={finalFilteredRegistros.monitoreo}
+          filteredRegistros={finalFilteredRegistros?.monitoreo}
         />
 
         <ViewEditRecords
@@ -187,7 +183,7 @@ function Records ({
           setEditando={setEditando}
           tipo='historiaMedica'
           endPoint={endPointGetMedicalHistory}
-          filteredRegistros={finalFilteredRegistros.historiaMedica}
+          filteredRegistros={finalFilteredRegistros?.historiaMedica}
         />
       </main>
       <Footer />
