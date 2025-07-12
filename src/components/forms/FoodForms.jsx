@@ -27,10 +27,11 @@ const hidratacionOptions = [
   { value: 'otro', label: 'Otro' }
 ]
 
-const FoodForms = ({ children, defaultValues }) => {
+const FoodForms = ({ children, defaultValues, onSubmit }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
   const endPointPost = `/api/patients/${id}/meals`
+  const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {
     reset(defaultValues)
@@ -45,16 +46,29 @@ const FoodForms = ({ children, defaultValues }) => {
       datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
 
-    console.log('Enviando datos:', dataToSend)
-    console.log('Endpoint:', endPointPost)
+    // console.log('Enviando datos:', dataToSend)
+    // console.log('Es edición:', isEditing)
 
-    try {
-      await postData(endPointPost, dataToSend)
-      reset()
-      console.log('Datos enviados exitosamente')
-    } catch (error) {
-      console.error('Error al enviar datos:', error)
-      console.error('Error message:', error.message)
+    if (isEditing) {
+      // Si estamos editando, usar onSubmit (PUT)
+      // console.log('Usando onSubmit para editar')
+      try {
+        await onSubmit(dataToSend)
+        // console.log('Registro editado exitosamente')
+      } catch (error) {
+        // console.error('Error al editar:', error)
+      }
+    } else {
+      // Si estamos creando, usar POST
+      // console.log('Endpoint:', endPointPost)
+      try {
+        await postData(endPointPost, dataToSend)
+        reset()
+        // console.log('Datos enviados exitosamente')
+      } catch (error) {
+        // console.error('Error al enviar datos:', error)
+        // console.error('Error message:', error.message)
+      }
     }
   }
 

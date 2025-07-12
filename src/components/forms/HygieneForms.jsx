@@ -26,6 +26,7 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
   const endPointPost = `/api/patients/${id}/hygiene_logs`
+  const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {
     reset(defaultValues)
@@ -40,11 +41,29 @@ function HygieneForms ({ children, onSubmit, defaultValues }) {
       observations: data.observations,
       datetime: data.datetime ? new Date(data.datetime).toISOString() : ''
     }
-    try {
-      await postData(endPointPost, dataToSend)
-      reset()
-    } catch (error) {
-    // Maneja el error
+
+    // console.log('Enviando datos:', dataToSend)
+    // console.log('Es edición:', isEditing)
+
+    if (isEditing) {
+      // Si estamos editando, usar onSubmit (PUT)
+      // console.log('Usando onSubmit para editar')
+      try {
+        await onSubmit(dataToSend)
+        // console.log('Registro editado exitosamente')
+      } catch (error) {
+        // console.error('Error al editar:', error)
+      }
+    } else {
+      // Si estamos creando, usar POST
+      // console.log('Endpoint:', endPointPost)
+      try {
+        await postData(endPointPost, dataToSend)
+        reset()
+        // console.log('Datos enviados exitosamente')
+      } catch (error) {
+        // console.error('Error al enviar datos:', error)
+      }
     }
   }
 

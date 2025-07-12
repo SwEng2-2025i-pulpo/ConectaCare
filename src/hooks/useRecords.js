@@ -16,15 +16,21 @@ function useRecords (endPoint, setRegistros, comunicado, setEditando, refresh, s
 
   const handleUpdate = async (data, registros) => {
     const original = registros[editIndex]
+    // console.log('🔍 Registro original completo:', original)
+
     const id = original.uuid || original.id || original._id
+    // console.log('🆔 ID encontrado:', id)
+    // console.log('🔍 Todas las propiedades del registro:', Object.keys(original))
 
     if (!id) {
       setMensaje('No se encontró el identificador del registro')
       return
     }
 
+    // Para meals, usar el formato URL/{id} para PUT
     const url = `${endPoint}/${id}`
-    console.log('PUT a:', url, 'con datos:', data)
+    // console.log('PUT a:', url, 'con datos:', data)
+    // console.log('ID del registro:', id)
 
     try {
       const updated = await putData(url, data)
@@ -36,7 +42,8 @@ function useRecords (endPoint, setRegistros, comunicado, setEditando, refresh, s
       setMensaje(comunicado)
       setRefresh(!refresh)
     } catch (error) {
-      setMensaje('Error al actualizar el registro')
+      // console.error('Error en PUT:', error)
+      setMensaje('Error al actualizar el registro: ' + error.message)
     }
   }
 

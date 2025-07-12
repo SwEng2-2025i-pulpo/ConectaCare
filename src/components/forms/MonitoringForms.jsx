@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
@@ -7,13 +7,38 @@ import { postData } from '../../utils/apiPost.js'
 import { id } from '../../utils/id.js'
 
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
-  const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
+  // Procesar defaultValues para extraer weight_by_month y blood_pressure
+  const processedDefaultValues = useMemo(() => {
+    if (!defaultValues) return {}
+
+    const processed = { ...defaultValues }
+
+    // Extraer datos de weight_by_month si existe
+    if (defaultValues.weight_by_month && Array.isArray(defaultValues.weight_by_month) && defaultValues.weight_by_month.length > 0) {
+      const weightData = defaultValues.weight_by_month[0]
+      processed.value = weightData.value
+      processed.month = weightData.month
+    }
+
+    // Extraer datos de blood_pressure si existe
+    if (defaultValues.blood_pressure) {
+      processed.systolic = defaultValues.blood_pressure.systolic
+      processed.diastolic = defaultValues.blood_pressure.diastolic
+    }
+
+    return processed
+  }, [defaultValues])
+
+  const { register, handleSubmit, reset, formState: { isSubmitSuccessful } } = useForm({
+    defaultValues: processedDefaultValues
+  })
 
   const endPointPost = `/api/patients/${id}/vital_signs`
+  const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
+    reset(processedDefaultValues)
+  }, [processedDefaultValues, reset])
 
   const send = async (data) => {
     const dataToSend = {
@@ -31,13 +56,29 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
       },
       heart_rate: Number(data.heart_rate)
     }
-    try {
-      await postData(endPointPost, dataToSend)
-      console.log('Datos enviados correctamente:', dataToSend)
-      reset()
-    } catch (error) {
-    // Maneja el error
-      console.log('Datos enviados correctamente:', dataToSend)
+
+    // console.log('Enviando datos:', dataToSend)
+    // console.log('Es edición:', isEditing)
+
+    if (isEditing) {
+      // Si estamos editando, usar onSubmit (PUT)
+      // console.log('Usando onSubmit para editar')
+      try {
+        await onSubmit(dataToSend)
+        // console.log('Registro editado exitosamente')
+      } catch (error) {
+        // console.error('Error al editar:', error)
+      }
+    } else {
+      // Si estamos creando, usar POST
+      // console.log('Endpoint:', endPointPost)
+      try {
+        await postData(endPointPost, dataToSend)
+        reset()
+        // console.log('Datos enviados exitosamente')
+      } catch (error) {
+        // console.error('Error al enviar datos:', error)
+      }
     }
   }
 
