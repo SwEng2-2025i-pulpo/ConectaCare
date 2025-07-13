@@ -4,7 +4,7 @@ import { FormInput } from './/componentsForms/FormInput'
 import { FormSelect } from './/componentsForms/FormSelect'
 import { FormTextarea } from './/componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
-import { id } from '../../utils/id.js'
+import { getCurrentPatientId } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
@@ -28,7 +28,8 @@ const estadoCumplimientoOptions = [
 export default function MedicationForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = `/api/patients/${id}/medication_logs`
+  const patientId = getCurrentPatientId()
+  const endPointPost = `/api/patients/${patientId}/medication_logs`
   const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {

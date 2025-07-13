@@ -2,11 +2,12 @@ import '../../../style.css'
 import { ButtonHome } from './ButtonHome'
 import { ButtonLink } from './ButtonLink'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faEye, faCircleDown, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faEye, faCircleDown, faUser } from '@fortawesome/free-solid-svg-icons'
 import { ButtonPdf } from './ButtonPdf'
+import { getCurrentPatientId } from '../../../utils/id.js'
 
 function StickyActions () {
-  const id = '684cadfec42b9cab643ad7a7'
+  const patientId = getCurrentPatientId()
 
   return (
     <section className='main sticky top-0 p-3 bg-white z-1'>
@@ -28,12 +29,12 @@ function StickyActions () {
         <ButtonPdf
           titleButton='Descargar PDF'
           icon={<FontAwesomeIcon icon={faCircleDown} />}
-          patientId={id} // Replace with actual patient ID
+          patientId={patientId}
         />
-        <ButtonLink to='/configuracion'>
+        <ButtonLink to='/paciente'>
           <ButtonHome
             titleButton='Pacientes'
-            icon={<FontAwesomeIcon icon={faGear} />}
+            icon={<FontAwesomeIcon icon={faUser} />}
           />
         </ButtonLink>
       </div>

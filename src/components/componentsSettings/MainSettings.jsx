@@ -5,6 +5,7 @@ import { FormInput } from '../forms/componentsForms/FormInput'
 import { ButtonSubmit } from '../forms/componentsForms/ButtonSubmit'
 import { createPatient } from '../../utils/apiCreatePatient'
 import { updatePatient } from '../../utils/apiPatients'
+import { usePatient } from '../../context/PatientContext'
 
 function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
@@ -13,6 +14,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const navigate = useNavigate()
+  const { stopEditing } = usePatient()
 
   useEffect(() => {
     if (patientToEdit) {
@@ -29,6 +31,23 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
       reset()
     }
   }, [patientToEdit, reset])
+
+  // Limpiar formulario cuando el componente se desmonte (navegue a otra pantalla)
+  useEffect(() => {
+    return () => {
+      // Esta función se ejecuta cuando el componente se desmonta
+      reset()
+      setIsEditing(false)
+      setMessage('')
+      setLoading(false)
+      setIsRedirecting(false)
+
+      // Limpiar el contexto del paciente en edición
+      if (stopEditing) {
+        stopEditing()
+      }
+    }
+  }, [reset, stopEditing])
 
   const onSubmit = async (data) => {
     setLoading(true)
@@ -68,6 +87,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
       setLoading(false)
     }
   }
+
   return (
     <main className='mainSettings'>
       <div className='mainSettings__title'>
@@ -134,7 +154,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
             error={errors.document}
           />
         </div>
-        <div className='w-[95%] h-auto flex justify-center items-start mb-5 lg:mx-auto lg:w-[55%]'>
+        <div className='w-[95%] h-auto flex justify-center items-center gap-4 mb-5 lg:mx-auto lg:w-[55%]'>
           <ButtonSubmit
             text={
               loading

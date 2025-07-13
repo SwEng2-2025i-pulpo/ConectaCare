@@ -40,7 +40,7 @@ export const formatFieldName = (campo) => {
     route: 'Vía de Administración',
     heart_rate: 'Frecuencia Cardíaca',
     blood_pressure: 'Presión Arterial',
-    weight_by_month: 'Peso por Mes'
+    daily_weight: 'Peso por Día'
   }
   return fieldNames[campo]
 }

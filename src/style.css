@@ -145,11 +145,11 @@
 }
 
 .mainSettings__title {
-    @apply w-[100%] h-auto flex flex-col lg:pl-5 p-5 rounded-lg;
+    @apply w-[100%] h-auto flex flex-col lg:pl-5 p-5 rounded-lg gap-4;
 }
 
 .mainSettings__h1 {
-    @apply w-[100%] text-xl font-semibold border-b border-slate-200;
+    @apply w-[100%] text-xl font-semibold lg:border-b border-slate-200;
 }
 
 .mainSettings__div {

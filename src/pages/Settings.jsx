@@ -8,7 +8,7 @@ function Settings () {
 
   const handleUpdateSuccess = () => {
     console.log('Paciente actualizado con éxito')
-    stopEditing() // Limpiar el estado de edición
+    stopEditing()
   }
 
   return (

@@ -21,7 +21,7 @@ export const getPatients = async () => {
       console.log('Campos disponibles:', Object.keys(data[0]))
       console.log('Fecha de nacimiento del primer paciente:', data[0].birth_date)
       console.log('Tipo de fecha:', typeof data[0].birth_date)
-      
+
       // Verificar si hay otros campos relacionados con fecha
       Object.keys(data[0]).forEach(key => {
         if (key.includes('birth') || key.includes('date') || key.includes('fecha')) {

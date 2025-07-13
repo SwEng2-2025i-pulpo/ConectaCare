@@ -4,7 +4,7 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
 import { postData } from '../../utils/apiPost.js'
-import { id } from '../../utils/id.js'
+import { getCurrentPatientId } from '../../utils/id.js'
 
 function MonitoringForms ({ children, onSubmit, defaultValues }) {
   // Procesar defaultValues para extraer weight_by_month y blood_pressure
@@ -33,7 +33,8 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
     defaultValues: processedDefaultValues
   })
 
-  const endPointPost = `/api/patients/${id}/vital_signs`
+  const patientId = getCurrentPatientId()
+  const endPointPost = `/api/patients/${patientId}/vital_signs`
   const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {
@@ -43,12 +44,7 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
   const send = async (data) => {
     const dataToSend = {
       datetime: data.datetime ? new Date(data.datetime).toISOString() : '',
-      weight_by_month: [
-        {
-          month: data.month,
-          value: Number(data.value)
-        }
-      ],
+      daily_weight: Number(data.daily_weight),
       observations: data.observations,
       blood_pressure: {
         systolic: Number(data.systolic),
@@ -110,27 +106,20 @@ function MonitoringForms ({ children, onSubmit, defaultValues }) {
         </div>
         <div className='monitoreo__div'>
           <FormInput
-            label='Peso del Mes'
-            id='value'
+            label='Peso (kg)'
+            id='daily_weight'
             type='number'
             placeholder='Peso'
             register={register}
           />
           <FormInput
-            label='Mes'
-            id='month'
-            type='month'
-            placeholder='Mes'
+            label='Frecuencia cardíaca en lpm'
+            id='heart_rate'
+            type='number'
+            placeholder='Frecuencia cardíaca'
             register={register}
           />
         </div>
-        <FormInput
-          label='Frecuencia cardíaca en lpm'
-          id='heart_rate'
-          type='number'
-          placeholder='Frecuencia cardíaca'
-          register={register}
-        />
         <FormTextarea
           label='Observaciones'
           id='observations'

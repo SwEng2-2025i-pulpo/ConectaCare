@@ -4,7 +4,7 @@ import { FormInput } from './componentsForms/FormInput'
 import { FormSelect } from './componentsForms/FormSelect'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
-import { id } from '../../utils/id.js'
+import { getCurrentPatientId } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
@@ -30,7 +30,8 @@ const hidratacionOptions = [
 const FoodForms = ({ children, defaultValues, onSubmit }) => {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = `/api/patients/${id}/meals`
+  const patientId = getCurrentPatientId()
+  const endPointPost = `/api/patients/${patientId}/meals`
   const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {

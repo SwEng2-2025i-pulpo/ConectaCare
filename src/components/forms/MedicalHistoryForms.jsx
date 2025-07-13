@@ -3,14 +3,15 @@ import { useForm } from 'react-hook-form'
 import { FormInput } from './componentsForms/FormInput'
 import { FormTextarea } from './componentsForms/FormTextarea'
 import { ButtonSubmit } from './componentsForms/ButtonSubmit'
-import { id } from '../../utils/id.js'
+import { getCurrentPatientId } from '../../utils/id.js'
 
 import { postData } from '../../utils/apiPost.js'
 
 function MedicalHistoryForms ({ children, onSubmit, defaultValues }) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitSuccessful } } = useForm({ defaultValues: defaultValues || {} })
 
-  const endPointPost = `/api/patients/${id}/medical_history`
+  const patientId = getCurrentPatientId()
+  const endPointPost = `/api/patients/${patientId}/medical_history`
   const isEditing = !!onSubmit && !!defaultValues
 
   useEffect(() => {

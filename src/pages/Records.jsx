@@ -13,7 +13,8 @@ import { SearchBar } from '../components/search/SearchBar'
 import { TypeFilter } from '../components/search/TypeFilter'
 import { useGlobalSearch } from '../hooks/useGlobalSearch.js'
 import { useTypeFilter } from '../hooks/useTypeFilter.js'
-import { id } from '../utils/id.js'
+import { getCurrentPatientId } from '../utils/id.js'
+import { getSelectedPatientName } from '../utils/selectedPatient.js'
 
 function Records ({
   registrosComida,
@@ -29,11 +30,15 @@ function Records ({
 }) {
   const [editando, setEditando] = useState(null)
 
-  const endPointGetFood = `/api/patients/${id}/meals`
-  const endPointGetMedication = `/api/patients/${id}/medication_logs`
-  const endPointGetHygiene = `/api/patients/${id}/hygiene_logs`
-  const endPointGetMonitoring = `/api/patients/${id}/vital_signs`
-  const endPointGetMedicalHistory = `/api/patients/${id}/medical_history`
+  // Obtener el ID y nombre del paciente seleccionado
+  const patientId = getCurrentPatientId()
+  const patientName = getSelectedPatientName()
+
+  const endPointGetFood = `/api/patients/${patientId}/meals`
+  const endPointGetMedication = `/api/patients/${patientId}/medication_logs`
+  const endPointGetHygiene = `/api/patients/${patientId}/hygiene_logs`
+  const endPointGetMonitoring = `/api/patients/${patientId}/vital_signs`
+  const endPointGetMedicalHistory = `/api/patients/${patientId}/medical_history`
 
   // Preparar todos los registros
   const allRegistros = {
@@ -83,7 +88,9 @@ function Records ({
       <StickyActions />
 
       <main className='main min-h-100'>
-        <h2 className='main-title'>Registros de Cuidados</h2>
+        <h2 className='main-title'>
+          Registros de Cuidados {patientName && `- ${patientName}`}
+        </h2>
 
         <SearchBar
           searchText={searchText}
@@ -162,7 +169,7 @@ function Records ({
           camposMostrar={['datetime',
             'blood_pressure',
             'heart_rate',
-            'weight_by_month',
+            'daily_weight',
             'observations']}
           editando={editando}
           setEditando={setEditando}
