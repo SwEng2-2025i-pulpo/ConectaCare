@@ -27,11 +27,11 @@ function Login () {
       const result = await loginUser(loginData)
       console.log('Resultado del login:', result)
 
-      // Como el backend no devuelve token, creamos uno simple o usamos un flag
-      const simpleToken = 'authenticated_' + Date.now()
+      // Guardar el token JWT que viene del backend
+      localStorage.setItem("token", result.access_token);
 
-      // Usar el contexto de autenticación para hacer login
-      login(result.user || { email: loginData.email }, simpleToken)
+      // (Opcional) guardar datos del usuario si el backend los incluye
+      login({ email: loginData.email }, result.access_token);
 
       setMessage('¡Inicio de sesión exitoso!')
 
