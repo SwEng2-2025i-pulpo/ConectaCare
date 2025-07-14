@@ -7,6 +7,7 @@ import { MedicationForms } from '../components/forms/MedicationForms'
 import { HygieneForms } from '../components/forms/HygieneForms'
 import { MonitoringForms } from '../components/forms/MonitoringForms'
 import { MedicalHistoryForms } from '../components/forms/MedicalHistoryForms'
+import { getSelectedPatientName } from '../utils/selectedPatient.js'
 
 import { Header } from '../components/componentsLayout/Header'
 import { StickyActions } from '../components/componentsLayout/componentsPages/StickyActions'
@@ -28,6 +29,7 @@ function Form ({
 
 }) {
   const [mostrarFormulario, setMostrarFormulario] = useState(false)
+  const patientName = getSelectedPatientName()
 
   const agregarRegistroComida = (registro) => {
     setRegistrosComida([...registrosComida, registro])
@@ -53,7 +55,16 @@ function Form ({
       <Header />
       <StickyActions />
       <main className='main'>
-        <h2 className='main-title'>Registrar Cuidados</h2>
+        <h2 className='main-title'>
+          Registrar Cuidados
+          <br className='block lg:hidden' />
+          {patientName && (
+            <>
+              <span className='hidden lg:inline'> - </span>
+              {patientName}
+            </>
+          )}
+        </h2>
         <ButtonForm
           titleForm='Alimentación' id={1} mostrarFormulario={mostrarFormulario}
           setMostrarFormulario={setMostrarFormulario}

@@ -75,8 +75,10 @@
 }
 
 .main-title {
-    @apply text-secondary text-lg font-bold lg:text-2xl;
+    @apply text-secondary text-lg font-bold;
 }
+
+
 
 /* Estilos imagenes home */
 .main-img{

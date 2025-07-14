@@ -68,12 +68,10 @@ function Records ({
     hasTypeFilters
   } = useTypeFilter(filteredBySearch)
 
-  // Combinar ambos filtros
   const finalFilteredRegistros = useMemo(() => {
     return filteredByType
   }, [filteredByType])
 
-  // Calcular totales para mostrar en SearchBar
   const totalCount = Object.values(allRegistros).reduce((total, registros) => {
     return total + (registros?.length || 0)
   }, 0)
@@ -89,7 +87,7 @@ function Records ({
 
       <main className='main min-h-100'>
         <h2 className='main-title'>
-          Registros de Cuidados {patientName && `- ${patientName}`}
+          Registros {patientName && `- ${patientName}`}
         </h2>
 
         <SearchBar
