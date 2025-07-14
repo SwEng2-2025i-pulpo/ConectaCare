@@ -1,10 +1,17 @@
 import '../../style.css'
 import logo from '../../assets/images/conectaCare.svg'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 function Header () {
+  const { logout } = useAuth()
+
   const handleClick = () => {
     window.location.hash = '#footer'
+  }
+
+  const handleLogout = () => {
+    logout()
   }
 
   return (
@@ -28,6 +35,14 @@ function Header () {
           </li>
           <li className='nav__ul__li cursor-pointer'>
             <span onClick={handleClick}>Sobre Nosotros</span>
+          </li>
+          <li>
+            <button
+              onClick={handleLogout}
+              className='bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg border border-white/20 transition-all duration-200 hover:scale-105 cursor-pointer'
+            >
+              Cerrar Sesión
+            </button>
           </li>
         </ul>
       </nav>

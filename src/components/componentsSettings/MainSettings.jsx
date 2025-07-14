@@ -8,13 +8,40 @@ import { updatePatient } from '../../utils/apiPatients'
 import { usePatient } from '../../context/PatientContext'
 
 function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
-  const { register, handleSubmit, reset, formState: { errors } } = useForm()
+  const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [isEditing, setIsEditing] = useState(false)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const navigate = useNavigate()
   const { stopEditing } = usePatient()
+
+  // Observar el campo birth_date para calcular la edad automáticamente
+  const birthDate = watch('birth_date')
+
+  // Función para calcular la edad basada en la fecha de nacimiento
+  const calculateAge = (birthDateString) => {
+    if (!birthDateString) return ''
+
+    const today = new Date()
+    const birth = new Date(birthDateString)
+    let age = today.getFullYear() - birth.getFullYear()
+    const monthDiff = today.getMonth() - birth.getMonth()
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--
+    }
+
+    return age
+  }
+
+  // Efecto para calcular automáticamente la edad cuando cambia birth_date
+  useEffect(() => {
+    if (birthDate) {
+      const calculatedAge = calculateAge(birthDate)
+      setValue('age', calculatedAge)
+    }
+  }, [birthDate, setValue])
 
   useEffect(() => {
     if (patientToEdit) {
@@ -23,7 +50,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
         name: patientToEdit.name || '',
         last_name: patientToEdit.last_name || '',
         birth_date: patientToEdit.birth_date || '',
-        age: patientToEdit.age || '',
+        age: patientToEdit.birth_date ? calculateAge(patientToEdit.birth_date) : (patientToEdit.age || ''),
         document: patientToEdit.document || ''
       })
     } else {
@@ -137,10 +164,12 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
             label='Edad'
             type='number'
             id='age'
-            placeholder='Edad'
+            placeholder='Se calcula automáticamente'
             register={register}
             required={{ required: 'La edad es obligatoria' }}
             error={errors.age}
+            disabled
+            style={{ backgroundColor: '#f3f4f6', cursor: 'not-allowed' }}
           />
         </div>
         <div className='Settings__form__div'>

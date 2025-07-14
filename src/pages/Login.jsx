@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import { LoginInput } from '../components/login/LoginInput'
 import { ButtonSubmit } from '../components/forms/componentsForms/ButtonSubmit'
 import { MessageAlert } from '../components/MessageAlert'
@@ -11,6 +12,7 @@ function Login () {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const navigate = useNavigate()
+  const { login } = useAuth()
 
   const onSubmit = async (data) => {
     setLoading(true)
@@ -23,11 +25,13 @@ function Login () {
       }
 
       const result = await loginUser(loginData)
+      console.log('Resultado del login:', result)
 
-      // Guardar token o datos de sesión si es necesario
-      if (result.token) {
-        window.localStorage.setItem('authToken', result.token)
-      }
+      // Como el backend no devuelve token, creamos uno simple o usamos un flag
+      const simpleToken = 'authenticated_' + Date.now()
+
+      // Usar el contexto de autenticación para hacer login
+      login(result.user || { email: loginData.email }, simpleToken)
 
       setMessage('¡Inicio de sesión exitoso!')
 
