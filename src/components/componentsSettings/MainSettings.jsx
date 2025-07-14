@@ -1,11 +1,10 @@
 import { useForm } from 'react-hook-form'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormInput } from '../forms/componentsForms/FormInput'
 import { ButtonSubmit } from '../forms/componentsForms/ButtonSubmit'
 import { createPatient } from '../../utils/apiCreatePatient'
 import { updatePatient } from '../../utils/apiPatients'
-import { usePatient } from '../../context/PatientContext'
 
 function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm()
@@ -14,13 +13,11 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   const [isEditing, setIsEditing] = useState(false)
   const [isRedirecting, setIsRedirecting] = useState(false)
   const navigate = useNavigate()
-  const { stopEditing } = usePatient()
 
-  // Observar el campo birth_date para calcular la edad automáticamente
   const birthDate = watch('birth_date')
 
   // Función para calcular la edad basada en la fecha de nacimiento
-  const calculateAge = (birthDateString) => {
+  const calculateAge = useCallback((birthDateString) => {
     if (!birthDateString) return ''
 
     const today = new Date()
@@ -33,9 +30,8 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
     }
 
     return age
-  }
+  }, [])
 
-  // Efecto para calcular automáticamente la edad cuando cambia birth_date
   useEffect(() => {
     if (birthDate) {
       const calculatedAge = calculateAge(birthDate)
@@ -46,35 +42,29 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
   useEffect(() => {
     if (patientToEdit) {
       setIsEditing(true)
+      const calculatedAge = patientToEdit.birth_date ? calculateAge(patientToEdit.birth_date) : (patientToEdit.age || '')
       reset({
         name: patientToEdit.name || '',
         last_name: patientToEdit.last_name || '',
         birth_date: patientToEdit.birth_date || '',
-        age: patientToEdit.birth_date ? calculateAge(patientToEdit.birth_date) : (patientToEdit.age || ''),
+        age: calculatedAge,
         document: patientToEdit.document || ''
       })
     } else {
       setIsEditing(false)
       reset()
     }
-  }, [patientToEdit, reset])
+  }, [patientToEdit, calculateAge, reset])
 
-  // Limpiar formulario cuando el componente se desmonte (navegue a otra pantalla)
   useEffect(() => {
     return () => {
-      // Esta función se ejecuta cuando el componente se desmonta
       reset()
       setIsEditing(false)
       setMessage('')
       setLoading(false)
       setIsRedirecting(false)
-
-      // Limpiar el contexto del paciente en edición
-      if (stopEditing) {
-        stopEditing()
-      }
     }
-  }, [reset, stopEditing])
+  }, [])
 
   const onSubmit = async (data) => {
     setLoading(true)
@@ -85,7 +75,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
         name: data.name,
         last_name: data.last_name,
         birth_date: data.birth_date,
-        age: parseInt(data.age),
+        age: parseInt(data.age) || calculateAge(data.birth_date),
         document: data.document,
         activity_level: 'Moderado',
         cholesterol: 0,
@@ -103,8 +93,7 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
           navigate('/paciente')
         }, 1500)
       } else {
-        const result = await createPatient(patientData)
-        console.log('Paciente creado exitosamente:', result)
+        await createPatient(patientData)
         setMessage('¡Paciente creado exitosamente!')
         reset()
       }
@@ -166,7 +155,6 @@ function MainSettings ({ patientToEdit = null, onUpdateSuccess = null }) {
             id='age'
             placeholder='Se calcula automáticamente'
             register={register}
-            required={{ required: 'La edad es obligatoria' }}
             error={errors.age}
             disabled
             style={{ backgroundColor: '#f3f4f6', cursor: 'not-allowed' }}
