@@ -1,14 +1,45 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
 import { LoginInput } from '../components/login/LoginInput'
 import { ButtonSubmit } from '../components/forms/componentsForms/ButtonSubmit'
-import { Link } from 'react-router-dom'
+import { MessageAlert } from '../components/MessageAlert'
+import { loginUser } from '../utils/apiLogin'
 
 function Login () {
   const { register, handleSubmit, formState: { errors } } = useForm()
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => {
-    console.log('Datos del login:', data)
-    // Aquí iría tu lógica de autenticación
+  const onSubmit = async (data) => {
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const loginData = {
+        email: data.email.trim().toLowerCase(),
+        password: data.password
+      }
+
+      const result = await loginUser(loginData)
+
+      // Guardar token o datos de sesión si es necesario
+      if (result.token) {
+        window.localStorage.setItem('authToken', result.token)
+      }
+
+      setMessage('¡Inicio de sesión exitoso!')
+
+      // Redireccionar a la página principal
+      setTimeout(() => {
+        navigate('/')
+      }, 1500)
+    } catch (error) {
+      setMessage(`Error al iniciar sesión: ${error.message}`)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -17,6 +48,9 @@ function Login () {
         <h1 className='login-title'>Iniciar Sesión</h1>
         <h3 className='login-subtitle'>¡Hola de nuevo! Qué gusto verte otra vez.
         </h3>
+
+        <MessageAlert message={message} />
+
         <form className='form' onSubmit={handleSubmit(onSubmit)}>
           <LoginInput
             label='Email'
@@ -37,9 +71,12 @@ function Login () {
             error={errors.password}
             showPasswordToggle
           />
-          {/* <ButtonSubmit className='lg:text-7xl' text='Ingresar' /> */}
+          <ButtonSubmit
+            className='lg:text-7xl'
+            text={loading ? 'Ingresando...' : 'Ingresar'}
+            disabled={loading}
+          />
         </form>
-        <ButtonSubmit className='lg:text-7xl' text='Ingresar' />
         <div className='flex flex-col items-center gap-4 mt-5 lg:text-sm'>
           <h2>¿Todavía no tienes cuenta?</h2>
           <Link to='/SignUp' className='hover:text-primary hover:font-bold cursor-pointer'>Crear Cuenta</Link>

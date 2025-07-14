@@ -1,17 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { LoginInput } from '../components/login/LoginInput'
 import { ButtonSubmit } from '../components/forms/componentsForms/ButtonSubmit'
+import { MessageAlert } from '../components/MessageAlert'
+import { registerUser } from '../utils/apiRegister'
 
 function SignUp () {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate()
 
   // Observar el valor del campo password
   const password = watch('password')
 
-  const onSubmit = (data) => {
-    console.log('Datos del registro:', data)
-    // Aquí iría tu lógica de registro
+  const onSubmit = async (data) => {
+    setLoading(true)
+    setMessage('')
+
+    try {
+      const userData = {
+        name: data.name.trim(),
+        last_name: data.last_name.trim(),
+        email: data.email.trim().toLowerCase(),
+        password: data.password,
+        confirm_password: data.confirm_password
+      }
+
+      await registerUser(userData)
+
+      setMessage('¡Cuenta creada exitosamente!')
+      reset()
+
+      // Redireccionar al login
+      setTimeout(() => {
+        navigate('/login')
+      }, 2000)
+    } catch (error) {
+      setMessage(`Error al crear la cuenta: ${error.message}`)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -22,6 +52,9 @@ function SignUp () {
           <h3 className='login-subtitle'>Crea una nueva cuenta
           </h3>
         </div>
+
+        <MessageAlert message={message} />
+
         <form className='signup__form' onSubmit={handleSubmit(onSubmit)}>
           <LoginInput
             label='Nombre Cuidador'
@@ -35,11 +68,11 @@ function SignUp () {
           <LoginInput
             label='Apellido Cuidador'
             type='text'
-            id='lastName'
+            id='last_name'
             placeholder='Apellido Cuidador'
             register={register}
             required={{ required: 'El apellido es obligatorio' }}
-            error={errors.lastName}
+            error={errors.last_name}
           />
           <LoginInput
             label='Email Cuidador'
@@ -47,7 +80,13 @@ function SignUp () {
             id='email'
             placeholder='Email'
             register={register}
-            required={{ required: 'El email es obligatorio' }}
+            required={{
+              required: 'El email es obligatorio',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Ingresa un email válido'
+              }
+            }}
             error={errors.email}
           />
           <LoginInput
@@ -79,18 +118,22 @@ function SignUp () {
           <LoginInput
             label='Confirmar Contraseña'
             type='password'
-            id='confirmPassword'
+            id='confirm_password'
             placeholder='Confirmar Contraseña'
             register={register}
             required={{
               required: 'La confirmación de la contraseña es obligatoria',
               validate: value => value === password || 'Las contraseñas no coinciden'
             }}
-            error={errors.confirmPassword}
+            error={errors.confirm_password}
             showPasswordToggle
           />
           <div className='w-full h-auto flex justify-start items-center lg:w-[70%] '>
-            <ButtonSubmit className='' text='Crear Cuenta' />
+            <ButtonSubmit
+              className=''
+              text={loading ? 'Creando cuenta...' : 'Crear Cuenta'}
+              disabled={loading}
+            />
           </div>
         </form>
       </main>

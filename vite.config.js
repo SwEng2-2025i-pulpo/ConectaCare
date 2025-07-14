@@ -15,6 +15,10 @@ export default defineConfig({
       '/create-patient': {
         target: 'http://127.0.0.1:3002',
         changeOrigin: true
+      },
+      '/auth': {
+        target: 'http://localhost:3003',
+        changeOrigin: true
       }
     }
   }
