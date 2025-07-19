@@ -1,13 +1,15 @@
 // Función para obtener todos los pacientes
 export const getPatients = async () => {
   try {
+    const token = localStorage.getItem('token')  // Asegúrate que lo guardaste en el login
+
     const response = await fetch('/create-patient/', {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`  // <-- Token JWT aquí para el header de la petición get
       }
     })
-
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`)
     }
