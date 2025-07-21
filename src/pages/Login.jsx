@@ -28,10 +28,10 @@ function Login () {
       console.log('Resultado del login:', result)
 
       // Guardar el token JWT que viene del backend
-      localStorage.setItem("token", result.access_token);
+      localStorage.setItem('token', result.access_token)
 
       // (Opcional) guardar datos del usuario si el backend los incluye
-      login({ email: loginData.email }, result.access_token);
+      login({ email: loginData.email }, result.access_token)
 
       setMessage('¡Inicio de sesión exitoso!')
 
